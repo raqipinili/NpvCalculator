@@ -1,0 +1,14 @@
+.cash-flow-title {
+  font-weight: bold;
+}
+
+.table-header {
+  font-weight: bolder;
+  color: blue;
+}
+
+.form-container {
+  -webkit-box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+}
