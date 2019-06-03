@@ -28,7 +28,7 @@ dotnet new xunit --name %ProjectXunit% --output %ProjectXunit%
 @REM -- add xunit project to solution --
 dotnet sln add .\%ProjectXunit%\%ProjectXunit%.csproj
 
-ng new NpvCalculator-Angular
+ng new NpvCalculator-Angular --routing=true --style=css
 @popd
 
 @set SolutionName=

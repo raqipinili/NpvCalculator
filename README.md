@@ -39,3 +39,18 @@ npm start
 
 open http://localhost:4200/ in browser
 
+## Installed Packages
+
+**Backend**
+
+* xunit
+
+**Frontend**
+
+* bootstrap
+* fontawesome
+* ngx-datatable
+* chart.js
+* ng2-charts@2.2.3
+* chartjs-plugin-annotation
+* ~~@angular/material~~
