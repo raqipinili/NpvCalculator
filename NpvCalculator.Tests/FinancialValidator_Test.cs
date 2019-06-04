@@ -4,7 +4,7 @@ using Xunit;
 
 namespace NpvCalculator.Tests
 {
-    public class FinancialValidator_Tests
+    public class FinancialValidator_Test
     {
         [Fact(DisplayName = "ValidateRate Throws ArgumentException")]
         public void ValidateRate_Throws_ArgumentException()
