@@ -1,0 +1,106 @@
+<form [formGroup]="pvForm" class="mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- #region -->
+            <div class="col-md-6 form-container pt-4">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <div class="cash-flow-title text-center">
+                            <h3>Present Value Calculator</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="col-form-label">Future Value</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                            <input type="number" formControlName="futureValue" class="form-control" tabindex="1" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="col-form-label">Discount / Inflation Rate</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <input type="number" formControlName="discountRate" class="form-control" tabindex="2" />
+                            <div class="input-group-append"><span class="input-group-text">%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="col-form-label">Periods</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">Years</span></div>
+                            <input type="number" formControlName="periods" class="form-control" tabindex="3" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="col-form-label">Compound Inverval</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <input type="number" formControlName="compoundInterval" class="form-control" tabindex="4" />
+                            <div class="input-group-append"><span class="input-group-text">%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <div class="float-right">
+                            <button type="button" class="btn btn-success mr-2" (click)="calculate()">
+                                <i class="fa fa-check-circle"></i> Calculate </button>
+                            <button type="button" class="btn btn-primary" (click)="clear()">
+                                <i class="fa fa-times-circle"></i> Clear </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <div class="present-value-result text-secondary">
+                            <span [ngClass]="presentValueClass">Present Value: {{ presentValue | number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- endregion -->
+            <!-- #region -->
+            <div class="col-md-6">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <ngx-datatable class="material" [rows]="rows | async" [sortType]="'single'" [loadingIndicator]="isLoading" [columnMode]="'force'" [limit]=" 10" [reorderable]="true" [externalPaging]="false" [rowHeight]="50" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="false" [scrollbarV]="true" [summaryRow]="false" [summaryPosition]="'bottom'" style="height: 500px;">
+                            <ngx-datatable-column prop="period" name="Period">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span class="table-header">{{ column.name }}</span>
+                                </ng-template>
+                                <ng-template let-value="value" ngx-datatable-cell-template>{{ value }}</ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column prop="amount" name="Present Value">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span class="table-header">{{ column.name }}</span>
+                                </ng-template>
+                                <ng-template let-value="value" ngx-datatable-cell-template> {{ value | number: '1.2-2' }}</ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+            <!-- endregion -->
+        </div>
+        <div class="row mt-5">
+            <div class="form-group col-md-12">
+                <app-tabbed-charts [chartLabels]="chartLabels" [chartData]="chartData">
+                </app-tabbed-charts>
+            </div>
+        </div>
+    </div>
+</form>

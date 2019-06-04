@@ -1,19 +1,26 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { FinancialService } from 'src/app/_services/financial.service';
 import { CashFlow } from 'src/app/_models/cash-flow';
 import { NetPresentValueRequest } from 'src/app/_models/net-present-value-request';
-import { Observable } from 'rxjs';
+import { NetPresentValue } from 'src/app/_models/net-present-value';
+import { Observable, of, Subscription } from 'rxjs';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { MessageBoxComponent } from '../message-box/message-box.component';
+import { getAllControlErrors, showMessageBox } from 'src/app/_helpers/helper-functions';
+
 
 @Component({
     selector: 'app-net-present-value',
     templateUrl: './net-present-value.component.html',
     styleUrls: ['./net-present-value.component.css']
 })
-export class NetPresentValueComponent implements OnInit {
+export class NetPresentValueComponent implements OnInit, OnDestroy {
+    bsModalRef: BsModalRef;
     npvForm: FormGroup;
     cashFlowCount = 5;
     rows: Observable<any[]>;
+    serviceSubscription: Subscription = null;
     // columns: any[] = [
     //     { prop: 'value', name: 'Net Present Value' },
     //     { prop: 'rate', name: 'Rate' }
@@ -41,7 +48,8 @@ export class NetPresentValueComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private financialService: FinancialService) {
+        private financialService: FinancialService,
+        private modalService: BsModalService) {
         this.npvForm = this.formBuilder.group({
             initialInvestment: [15000, Validators.required],
             lowerBoundDiscountRate: [1, Validators.required],
@@ -52,6 +60,13 @@ export class NetPresentValueComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ngOnDestroy() {
+        if (this.serviceSubscription) {
+            this.serviceSubscription.unsubscribe();
+            this.serviceSubscription = null;
+        }
     }
 
     addCashFlowControl() {
@@ -74,37 +89,43 @@ export class NetPresentValueComponent implements OnInit {
             upperBoundDiscountRate: this.npvForm.value.upperBoundDiscountRate,
             discountRateIncrement: this.npvForm.value.discountRateIncrement,
             cashFlows: this.npvForm.value.cashFlows.map((value: number, index: number) =>
-                ({ period: index, amount: value || 0 } as CashFlow))
+                ({ period: index + 1, amount: value || 0 } as CashFlow))
         } as NetPresentValueRequest;
     }
 
     calculate() {
+        const controlErrors: string[] =
+            getAllControlErrors(
+                this.npvForm,
+                ['initialInvestment', 'lowerBoundDiscountRate', 'upperBoundDiscountRate', 'discountRateIncrement'],
+                ['Initial Investment', 'Lower Bound Discount Rate', 'Upper Bound Discount Rate', 'Discount Rate Increment']);
+
+        if (controlErrors.length > 0) {
+            this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', controlErrors);
+            return;
+        }
+
         this.isLoading = true;
         const npvFormValues = this.getNpvFormValues();
 
-        this.financialService.getNetPresentValueDynamicRate(npvFormValues)
-            .subscribe(response => {
-                // this.rows = Object.assign([], response.netPresentValues);
-                // console.log(this.rows);
-
-                this.chartLabels = response.netPresentValues.map(npv => npv.rate.toFixed(2));
+        this.serviceSubscription = this.financialService.getNetPresentValueDynamicRate(npvFormValues).subscribe(
+            (response: NetPresentValue[]) => {
+                this.rows = of(response);
+                this.chartLabels = response.map(npv => npv.rate.toFixed(2));
                 this.chartData = [{
-                    data: response.netPresentValues.map(npv => Number(npv.value.toFixed(2))),
+                    data: response.map(npv => Number(npv.amount.toFixed(2))),
                     label: 'Net Present Value'
                 }];
-
-                this.rows = Observable.create((subscriber) => {
-                    subscriber.next(response.netPresentValues);
-                    subscriber.complete();
-                });
-
+            }, error => {
+                console.log(error, 'Error in getNetPresentValueDynamicRate method');
+                this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', [`${error.status} - ${error.statusText}`]);
+                this.isLoading = false;
+            }, () => {
                 this.isLoading = false;
             });
     }
 
     clear() {
-        this.rows = null;
-
         while (this.cashFlowFormArray.length !== 0) {
             this.cashFlowFormArray.removeAt(0);
         }
@@ -114,6 +135,7 @@ export class NetPresentValueComponent implements OnInit {
         }
 
         this.isLoading = false;
+        this.rows = null;
         this.chartLabels = null;
         this.chartData = null;
 

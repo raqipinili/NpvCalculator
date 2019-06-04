@@ -1,4 +1,4 @@
 export interface NetPresentValue {
-    value: number;
+    amount: number;
     rate: number;
 }

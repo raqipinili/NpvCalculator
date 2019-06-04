@@ -16,6 +16,31 @@ namespace NpvCalculator.Tests.Data
             new object[] { 18500D, 14.5, 4D, 10763.41D },
         };
 
+        public static IEnumerable<object[]> PresentValueMultiData => new List<object[]>
+        {
+            // futureValue, rate, periods, expectedValue
+            new object[]
+            {
+                1100D,
+                10D,
+                10,
+                new List<PeriodAmount>()
+                {
+                    new PeriodAmount() { Amount = 424.10D, Period = 0 },
+                    new PeriodAmount() { Amount = 466.51D, Period = 1 },
+                    new PeriodAmount() { Amount = 513.16D, Period = 2 },
+                    new PeriodAmount() { Amount = 564.47D, Period = 3 },
+                    new PeriodAmount() { Amount = 620.92D, Period = 4 },
+                    new PeriodAmount() { Amount = 683.01D, Period = 5 },
+                    new PeriodAmount() { Amount = 751.31D, Period = 6 },
+                    new PeriodAmount() { Amount = 826.45D, Period = 7 },
+                    new PeriodAmount() { Amount = 909.09D, Period = 8 },
+                    new PeriodAmount() { Amount = 1000D, Period = 9 },
+                    new PeriodAmount() { Amount = 1100D, Period = 10 }
+                }
+            },
+        };
+
         public static IEnumerable<object[]> FutureValueData => new List<object[]>
         {
             // presentValue, rate, exponent, expectedValue
@@ -26,6 +51,29 @@ namespace NpvCalculator.Tests.Data
             new object[] { 10763.41D, 14.5, 4D, 18500D },
         };
 
+        public static IEnumerable<object[]> FutureValueMultiData => new List<object[]>
+        {
+            // futureValue, rate, periods, expectedValue
+            new object[]
+            {
+                1000D,
+                10D,
+                10,
+                new List<PeriodAmount>()
+                {
+                    new PeriodAmount() { Amount = 1100D, Period = 1 },
+                    new PeriodAmount() { Amount = 1210D, Period = 2 },
+                    new PeriodAmount() { Amount = 1331D, Period = 3 },
+                    new PeriodAmount() { Amount = 1464.10D, Period = 4 },
+                    new PeriodAmount() { Amount = 1610.51D, Period = 5 },
+                    new PeriodAmount() { Amount = 1771.56D, Period = 6 },
+                    new PeriodAmount() { Amount = 1948.72D, Period = 7 },
+                    new PeriodAmount() { Amount = 2143.59D, Period = 8 },
+                    new PeriodAmount() { Amount = 2357.95D, Period = 9 },
+                    new PeriodAmount() { Amount = 2593.74D, Period = 10 }
+                }
+            },
+        };
 
         public static IEnumerable<object[]> NetPresentValueData => new List<object[]>
         {
@@ -34,13 +82,13 @@ namespace NpvCalculator.Tests.Data
             {
                 1000D,
                 12D,
-                new List<CashFlow>()
+                new List<PeriodAmount>()
                 {
-                    new CashFlow() { Amount = 100D, Period = 1D },
-                    new CashFlow() { Amount = 200D, Period = 2D },
-                    new CashFlow() { Amount = 300D, Period = 3D },
-                    new CashFlow() { Amount = 400D, Period = 4D },
-                    new CashFlow() { Amount = 900D, Period = 5D }
+                    new PeriodAmount() { Amount = 100D, Period = 1 },
+                    new PeriodAmount() { Amount = 200D, Period = 2 },
+                    new PeriodAmount() { Amount = 300D, Period = 3 },
+                    new PeriodAmount() { Amount = 400D, Period = 4 },
+                    new PeriodAmount() { Amount = 900D, Period = 5 }
                 },
                 227.15D
             },
@@ -48,13 +96,13 @@ namespace NpvCalculator.Tests.Data
             {
                 37893D,
                 17D,
-                new List<CashFlow>()
+                new List<PeriodAmount>()
                 {
-                    new CashFlow() { Amount = 3589D, Period = 1D },
-                    new CashFlow() { Amount = 6892D, Period = 2D },
-                    new CashFlow() { Amount = 4826D, Period = 3D },
-                    new CashFlow() { Amount = 7483D, Period = 4D },
-                    new CashFlow() { Amount = 5376D, Period = 5D }
+                    new PeriodAmount() { Amount = 3589D, Period = 1 },
+                    new PeriodAmount() { Amount = 6892D, Period = 2 },
+                    new PeriodAmount() { Amount = 4826D, Period = 3 },
+                    new PeriodAmount() { Amount = 7483D, Period = 4 },
+                    new PeriodAmount() { Amount = 5376D, Period = 5 }
                 },
                 -20332.21D
             }
@@ -70,73 +118,73 @@ namespace NpvCalculator.Tests.Data
                 1D,
                 15D,
                 .25D,
-                new List<CashFlow>()
+                new List<PeriodAmount>()
                 {
-                    new CashFlow() { Amount = 100D, Period = 1D },
-                    new CashFlow() { Amount = 200D, Period = 2D },
-                    new CashFlow() { Amount = 300D, Period = 3D },
-                    new CashFlow() { Amount = 400D, Period = 4D },
-                    new CashFlow() { Amount = 900D, Period = 5D }
+                    new PeriodAmount() { Amount = 100D, Period = 1 },
+                    new PeriodAmount() { Amount = 200D, Period = 2 },
+                    new PeriodAmount() { Amount = 300D, Period = 3 },
+                    new PeriodAmount() { Amount = 400D, Period = 4 },
+                    new PeriodAmount() { Amount = 900D, Period = 5 }
                 },
                 new List<NetPresentValue>()
                 {
-                    new NetPresentValue() { Value = 826.9574D, Rate = 1D },
-                    new NetPresentValue() { Value = 809.2922D, Rate = 1.25D },
-                    new NetPresentValue() { Value = 791.8576D, Rate = 1.5D },
-                    new NetPresentValue() { Value = 774.6499D, Rate = 1.75D },
-                    new NetPresentValue() { Value = 757.6656D, Rate = 2D },
-                    new NetPresentValue() { Value = 740.9010D, Rate = 2.25D },
-                    new NetPresentValue() { Value = 724.3528D, Rate = 2.5D },
-                    new NetPresentValue() { Value = 708.0175D, Rate = 2.75D },
-                    new NetPresentValue() { Value = 691.8918D, Rate = 3D },
-                    new NetPresentValue() { Value = 675.9724D, Rate = 3.25D },
-                    new NetPresentValue() { Value = 660.2561D, Rate = 3.5D },
-                    new NetPresentValue() { Value = 644.7396D, Rate = 3.75D },
-                    new NetPresentValue() { Value = 629.4201D, Rate = 4D },
-                    new NetPresentValue() { Value = 614.2943D, Rate = 4.25D },
-                    new NetPresentValue() { Value = 599.3592D, Rate = 4.5D },
-                    new NetPresentValue() { Value = 584.6120D, Rate = 4.75D },
-                    new NetPresentValue() { Value = 570.0498D, Rate = 5D },
-                    new NetPresentValue() { Value = 555.6697D, Rate = 5.25D },
-                    new NetPresentValue() { Value = 541.4689D, Rate = 5.5D },
-                    new NetPresentValue() { Value = 527.4448D, Rate = 5.75D },
-                    new NetPresentValue() { Value = 513.5945D, Rate = 6D },
-                    new NetPresentValue() { Value = 499.9156D, Rate = 6.25D },
-                    new NetPresentValue() { Value = 486.4053D, Rate = 6.5D },
-                    new NetPresentValue() { Value = 473.0612D, Rate = 6.75D },
-                    new NetPresentValue() { Value = 459.8807D, Rate = 7D },
-                    new NetPresentValue() { Value = 446.8614D, Rate = 7.25D },
-                    new NetPresentValue() { Value = 434.0009D, Rate = 7.5D },
-                    new NetPresentValue() { Value = 421.2968D, Rate = 7.75D },
-                    new NetPresentValue() { Value = 408.7468D, Rate = 8D },
-                    new NetPresentValue() { Value = 396.3486D, Rate = 8.25D },
-                    new NetPresentValue() { Value = 384.1000D, Rate = 8.5D },
-                    new NetPresentValue() { Value = 371.9987D, Rate = 8.75D },
-                    new NetPresentValue() { Value = 360.0425D, Rate = 9D },
-                    new NetPresentValue() { Value = 348.2294D, Rate = 9.25D },
-                    new NetPresentValue() { Value = 336.5572D, Rate = 9.5D },
-                    new NetPresentValue() { Value = 325.0238D, Rate = 9.75D },
-                    new NetPresentValue() { Value = 313.6274D, Rate = 10D },
-                    new NetPresentValue() { Value = 302.3657D, Rate = 10.25D },
-                    new NetPresentValue() { Value = 291.2370D, Rate = 10.5D },
-                    new NetPresentValue() { Value = 280.2393D, Rate = 10.75D },
-                    new NetPresentValue() { Value = 269.3706D, Rate = 11D },
-                    new NetPresentValue() { Value = 258.6291D, Rate = 11.25D },
-                    new NetPresentValue() { Value = 248.0131D, Rate = 11.5D },
-                    new NetPresentValue() { Value = 237.5206D, Rate = 11.75D },
-                    new NetPresentValue() { Value = 227.1500D, Rate = 12D },
-                    new NetPresentValue() { Value = 216.8994D, Rate = 12.25D },
-                    new NetPresentValue() { Value = 206.7673D, Rate = 12.5D },
-                    new NetPresentValue() { Value = 196.7518D, Rate = 12.75D },
-                    new NetPresentValue() { Value = 186.8514D, Rate = 13D },
-                    new NetPresentValue() { Value = 177.0644D, Rate = 13.25D },
-                    new NetPresentValue() { Value = 167.3893D, Rate = 13.5D },
-                    new NetPresentValue() { Value = 157.8244D, Rate = 13.75D },
-                    new NetPresentValue() { Value = 148.3682D, Rate = 14D },
-                    new NetPresentValue() { Value = 139.0192D, Rate = 14.25D },
-                    new NetPresentValue() { Value = 129.7759D, Rate = 14.5D },
-                    new NetPresentValue() { Value = 120.6368D, Rate = 14.75D },
-                    new NetPresentValue() { Value = 111.6005D, Rate = 15D }
+                    new NetPresentValue() { Amount = 826.9574D, Rate = 1D },
+                    new NetPresentValue() { Amount = 809.2922D, Rate = 1.25D },
+                    new NetPresentValue() { Amount = 791.8576D, Rate = 1.5D },
+                    new NetPresentValue() { Amount = 774.6499D, Rate = 1.75D },
+                    new NetPresentValue() { Amount = 757.6656D, Rate = 2D },
+                    new NetPresentValue() { Amount = 740.9010D, Rate = 2.25D },
+                    new NetPresentValue() { Amount = 724.3528D, Rate = 2.5D },
+                    new NetPresentValue() { Amount = 708.0175D, Rate = 2.75D },
+                    new NetPresentValue() { Amount = 691.8918D, Rate = 3D },
+                    new NetPresentValue() { Amount = 675.9724D, Rate = 3.25D },
+                    new NetPresentValue() { Amount = 660.2561D, Rate = 3.5D },
+                    new NetPresentValue() { Amount = 644.7396D, Rate = 3.75D },
+                    new NetPresentValue() { Amount = 629.4201D, Rate = 4D },
+                    new NetPresentValue() { Amount = 614.2943D, Rate = 4.25D },
+                    new NetPresentValue() { Amount = 599.3592D, Rate = 4.5D },
+                    new NetPresentValue() { Amount = 584.6120D, Rate = 4.75D },
+                    new NetPresentValue() { Amount = 570.0498D, Rate = 5D },
+                    new NetPresentValue() { Amount = 555.6697D, Rate = 5.25D },
+                    new NetPresentValue() { Amount = 541.4689D, Rate = 5.5D },
+                    new NetPresentValue() { Amount = 527.4448D, Rate = 5.75D },
+                    new NetPresentValue() { Amount = 513.5945D, Rate = 6D },
+                    new NetPresentValue() { Amount = 499.9156D, Rate = 6.25D },
+                    new NetPresentValue() { Amount = 486.4053D, Rate = 6.5D },
+                    new NetPresentValue() { Amount = 473.0612D, Rate = 6.75D },
+                    new NetPresentValue() { Amount = 459.8807D, Rate = 7D },
+                    new NetPresentValue() { Amount = 446.8614D, Rate = 7.25D },
+                    new NetPresentValue() { Amount = 434.0009D, Rate = 7.5D },
+                    new NetPresentValue() { Amount = 421.2968D, Rate = 7.75D },
+                    new NetPresentValue() { Amount = 408.7468D, Rate = 8D },
+                    new NetPresentValue() { Amount = 396.3486D, Rate = 8.25D },
+                    new NetPresentValue() { Amount = 384.1000D, Rate = 8.5D },
+                    new NetPresentValue() { Amount = 371.9987D, Rate = 8.75D },
+                    new NetPresentValue() { Amount = 360.0425D, Rate = 9D },
+                    new NetPresentValue() { Amount = 348.2294D, Rate = 9.25D },
+                    new NetPresentValue() { Amount = 336.5572D, Rate = 9.5D },
+                    new NetPresentValue() { Amount = 325.0238D, Rate = 9.75D },
+                    new NetPresentValue() { Amount = 313.6274D, Rate = 10D },
+                    new NetPresentValue() { Amount = 302.3657D, Rate = 10.25D },
+                    new NetPresentValue() { Amount = 291.2370D, Rate = 10.5D },
+                    new NetPresentValue() { Amount = 280.2393D, Rate = 10.75D },
+                    new NetPresentValue() { Amount = 269.3706D, Rate = 11D },
+                    new NetPresentValue() { Amount = 258.6291D, Rate = 11.25D },
+                    new NetPresentValue() { Amount = 248.0131D, Rate = 11.5D },
+                    new NetPresentValue() { Amount = 237.5206D, Rate = 11.75D },
+                    new NetPresentValue() { Amount = 227.1500D, Rate = 12D },
+                    new NetPresentValue() { Amount = 216.8994D, Rate = 12.25D },
+                    new NetPresentValue() { Amount = 206.7673D, Rate = 12.5D },
+                    new NetPresentValue() { Amount = 196.7518D, Rate = 12.75D },
+                    new NetPresentValue() { Amount = 186.8514D, Rate = 13D },
+                    new NetPresentValue() { Amount = 177.0644D, Rate = 13.25D },
+                    new NetPresentValue() { Amount = 167.3893D, Rate = 13.5D },
+                    new NetPresentValue() { Amount = 157.8244D, Rate = 13.75D },
+                    new NetPresentValue() { Amount = 148.3682D, Rate = 14D },
+                    new NetPresentValue() { Amount = 139.0192D, Rate = 14.25D },
+                    new NetPresentValue() { Amount = 129.7759D, Rate = 14.5D },
+                    new NetPresentValue() { Amount = 120.6368D, Rate = 14.75D },
+                    new NetPresentValue() { Amount = 111.6005D, Rate = 15D }
                 }
             },
             new object[]
@@ -145,21 +193,21 @@ namespace NpvCalculator.Tests.Data
                 1D,
                 5D,
                 1D,
-                new List<CashFlow>()
+                new List<PeriodAmount>()
                 {
-                    new CashFlow() { Amount = 8268D, Period = 1D },
-                    new CashFlow() { Amount = 5671D, Period = 2D },
-                    new CashFlow() { Amount = 4759D, Period = 3D },
-                    new CashFlow() { Amount = 7890D, Period = 4D },
-                    new CashFlow() { Amount = 9675D, Period = 5D }
+                    new PeriodAmount() { Amount = 8268D, Period = 1 },
+                    new PeriodAmount() { Amount = 5671D, Period = 2 },
+                    new PeriodAmount() { Amount = 4759D, Period = 3 },
+                    new PeriodAmount() { Amount = 7890D, Period = 4 },
+                    new PeriodAmount() { Amount = 9675D, Period = 5 }
                 },
                 new List<NetPresentValue>()
                 {
-                    new NetPresentValue() { Value = 8152.0015D, Rate = 1D },
-                    new NetPresentValue() { Value = 7093.2685D, Rate = 2D },
-                    new NetPresentValue() { Value = 6083.7078D, Rate = 3D },
-                    new NetPresentValue() { Value = 5120.4418D, Rate = 4D },
-                    new NetPresentValue() { Value = 4200.7912D, Rate = 5D }
+                    new NetPresentValue() { Amount = 8152.0015D, Rate = 1D },
+                    new NetPresentValue() { Amount = 7093.2685D, Rate = 2D },
+                    new NetPresentValue() { Amount = 6083.7078D, Rate = 3D },
+                    new NetPresentValue() { Amount = 5120.4418D, Rate = 4D },
+                    new NetPresentValue() { Amount = 4200.7912D, Rate = 5D }
                 }
             }
         };

@@ -10,6 +10,6 @@ namespace NpvCalculator.Core.Classes
         public double LowerBoundDiscountRate { get; set; }
         public double UpperBoundDiscountRate { get; set; }
         public double DiscountRateIncrement { get; set; }
-        public IEnumerable<CashFlow> CashFlows { get; set; }
+        public IEnumerable<PeriodAmount> CashFlows { get; set; }
     }
 }

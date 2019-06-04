@@ -1,14 +1,6 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container">
+<nav class="navbar navbar-dark nav-color">
+    <div class=" container">
         <a class="navbar-brand" [routerLink]="['/home']">NpvCalculator</a>
-        <div *ngIf="true" class="dropdown" dropdown>
-            <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{ 'raqi' | titlecase }}</a>
-            <div class="dropdown-menu mt-3" *dropdownMenu>
-                <a class="dropdown-item" [routerLink]="['/user/edit']">Edit Profile</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Logout</a>
-            </div>
-        </div>
     </div>
 </nav>
 <router-outlet></router-outlet>

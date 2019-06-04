@@ -7,3 +7,20 @@
 @import '~@swimlane/ngx-datatable/release/themes/material.css';
 @import '~@swimlane/ngx-datatable/release/themes/dark.css';
 @import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
+.form-container {
+  -webkit-box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.table-header {
+  font-size: 16px;
+  font-weight: bolder;
+  color: #0275d8;
+}
+
+button:not(.close) {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.36),
+                0 2px 10px 0 rgba(0,0,0,.32);
+}

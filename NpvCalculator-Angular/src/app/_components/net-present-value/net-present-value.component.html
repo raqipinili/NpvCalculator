@@ -4,9 +4,9 @@
             <!-- #region -->
             <div class="col-md-6 form-container pt-4">
                 <div class="form-row">
-                    <div class="form-group col-md-10">
+                    <div class="form-group col-md-12">
                         <div class="cash-flow-title text-center">
-                            <h3>Net Present Value</h3>
+                            <h3>Net Present Value Calculator</h3>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <div class="float-right">
-                            <button type="button" class="btn btn-primary mr-2" [tabindex]="currentTabIndex + 1" (click)="calculate()">
+                            <button type="button" class="btn btn-success mr-2" [tabindex]="currentTabIndex + 1" (click)="calculate()">
                                 <i class="fa fa-check-circle"></i> Calculate </button>
                             <button type="button" class="btn btn-primary" [tabindex]="currentTabIndex + 2" (click)="clear()">
                                 <i class="fa fa-times-circle"></i> Clear </button>
@@ -103,7 +103,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <ngx-datatable class="material" [rows]="rows | async" [sortType]="'single'" [loadingIndicator]="isLoading" [columnMode]="'force'" [limit]=" 12" [reorderable]="true" [externalPaging]="false" [rowHeight]="50" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="false" [scrollbarV]="true" [summaryRow]="false" [summaryPosition]="'bottom'" style="height: 700px;">
-                            <ngx-datatable-column prop="value" name="Net Present Value">
+                            <ngx-datatable-column prop="amount" name="Net Present Value">
                                 <ng-template let-column="column" ngx-datatable-header-template>
                                     <span class="table-header">{{ column.name }}</span>
                                 </ng-template>
