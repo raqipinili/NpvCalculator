@@ -4,9 +4,6 @@ import { FinancialService } from 'src/app/_services/financial.service';
 import { CashFlow } from 'src/app/_models/cash-flow';
 import { NetPresentValueRequest } from 'src/app/_models/net-present-value-request';
 import { Observable } from 'rxjs';
-import { ChartDataSets, ChartOptions, ChartData } from 'chart.js';
-import { Label, Color, BaseChartDirective } from 'ng2-charts';
-import * as pluginAnnotations from 'chartjs-plugin-annotation';
 
 @Component({
     selector: 'app-net-present-value',
@@ -22,80 +19,9 @@ export class NetPresentValueComponent implements OnInit {
     //     { prop: 'rate', name: 'Rate' }
     // ];
 
-    lineChartData: ChartDataSets[] = [
-        { data: [], label: 'Net Present Value' }
-    ];
-    lineChartLabels: Label[] = [];
-    lineChartOptions: (ChartOptions & { annotation: any }) = {
-        responsive: true,
-        scales: {
-            // We use this empty structure as a placeholder for dynamic theming.
-            xAxes: [{}],
-            yAxes: [
-                {
-                    id: 'y-axis-0',
-                    position: 'left',
-                },
-                {
-                    id: 'y-axis-1',
-                    position: 'right',
-                    gridLines: {
-                        color: 'rgba(255,0,0,0.3)',
-                    },
-                    ticks: {
-                        fontColor: 'red',
-                    }
-                }
-            ]
-        },
-        annotation: {
-            annotations: [
-                {
-                    type: 'line',
-                    mode: 'vertical',
-                    scaleID: 'x-axis-0',
-                    value: 'March',
-                    borderColor: 'orange',
-                    borderWidth: 2,
-                    label: {
-                        enabled: true,
-                        fontColor: 'orange',
-                        content: 'LineAnno'
-                    }
-                },
-            ],
-        },
-    };
-    lineChartColors: Color[] = [{
-        // grey
-        backgroundColor: 'rgba(148,159,177,0.2)',
-        borderColor: 'rgba(148,159,177,1)',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }, {
-        // dark grey
-        backgroundColor: 'rgba(77,83,96,0.2)',
-        borderColor: 'rgba(77,83,96,1)',
-        pointBackgroundColor: 'rgba(77,83,96,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(77,83,96,1)'
-    }, {
-        // red
-        backgroundColor: 'rgba(255,0,0,0.3)',
-        borderColor: 'red',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-    }];
-
-    lineChartLegend = true;
-    lineChartType = 'line';
-    lineChartPlugins = [pluginAnnotations];
-    // @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
+    isLoading = false;
+    chartLabels = null;
+    chartData = null;
 
     get cashFlowFormArray(): FormArray {
         return this.npvForm.get('cashFlows') as FormArray;
@@ -153,6 +79,7 @@ export class NetPresentValueComponent implements OnInit {
     }
 
     calculate() {
+        this.isLoading = true;
         const npvFormValues = this.getNpvFormValues();
 
         this.financialService.getNetPresentValueDynamicRate(npvFormValues)
@@ -160,16 +87,18 @@ export class NetPresentValueComponent implements OnInit {
                 // this.rows = Object.assign([], response.netPresentValues);
                 // console.log(this.rows);
 
-                this.lineChartLabels = response.netPresentValues.map(npv => npv.rate.toString());
-                this.lineChartData = [{
-                    data: response.netPresentValues.map(npv => npv.value.toFixed(2)),
+                this.chartLabels = response.netPresentValues.map(npv => npv.rate.toFixed(2));
+                this.chartData = [{
+                    data: response.netPresentValues.map(npv => Number(npv.value.toFixed(2))),
                     label: 'Net Present Value'
-                } as ChartDataSets];
+                }];
 
                 this.rows = Observable.create((subscriber) => {
                     subscriber.next(response.netPresentValues);
                     subscriber.complete();
                 });
+
+                this.isLoading = false;
             });
     }
 
@@ -183,6 +112,10 @@ export class NetPresentValueComponent implements OnInit {
         for (const value of this.defaultCashFlowValues) {
             this.cashFlowFormArray.push(new FormControl(value, Validators.required));
         }
+
+        this.isLoading = false;
+        this.chartLabels = null;
+        this.chartData = null;
 
         this.npvForm.reset({
             initialInvestment: 1500,

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageNotFoundComponent } from './page-not-found.component';
+import { TabbedChartsComponent } from './tabbed-charts.component';
 
-describe('PageNotFoundComponent', () => {
-    let component: PageNotFoundComponent;
-    let fixture: ComponentFixture<PageNotFoundComponent>;
+describe('TabbedChartsComponent', () => {
+    let component: TabbedChartsComponent;
+    let fixture: ComponentFixture<TabbedChartsComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [PageNotFoundComponent]
+            declarations: [TabbedChartsComponent]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(PageNotFoundComponent);
+        fixture = TestBed.createComponent(TabbedChartsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -9,8 +9,7 @@ describe('NetPresentValueComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [NetPresentValueComponent]
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
 
     beforeEach(() => {

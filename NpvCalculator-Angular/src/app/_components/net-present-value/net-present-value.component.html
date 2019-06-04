@@ -1,154 +1,131 @@
 <form [formGroup]="npvForm" class="mt-5">
-  <div class="container">
-    <div class="row">
-      <!-- LEFT -->
-      <div class="col-md-6 form-container pt-4">
-        <div class="form-row">
-          <div class="form-group col-md-10">
-            <div class="cash-flow-title text-center">
-              <h3>Net Present Value</h3>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label class="col-form-label">Initial Investment</label>
-          </div>
-          <div class="form-group col-md-6">
-            <div class="input-group">
-              <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-              <input type="number" formControlName="initialInvestment" class="form-control" tabindex="1" />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label class="col-form-label">Lower Bound Discount Rate</label>
-          </div>
-          <div class="form-group col-md-6">
-            <div class="input-group">
-              <input type="number" formControlName="lowerBoundDiscountRate" class="form-control" tabindex="2" />
-              <div class="input-group-append"><span class="input-group-text">%</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label class="col-form-label">Upper Bound Discount Rate</label>
-          </div>
-          <div class="form-group col-md-6">
-            <div class="input-group">
-              <input type="number" formControlName="upperBoundDiscountRate" class="form-control" tabindex="3" />
-              <div class="input-group-append"><span class="input-group-text">%</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label class="col-form-label">Discount Rate Increment</label>
-          </div>
-          <div class="form-group col-md-6">
-            <div class="input-group">
-              <input type="number" formControlName="discountRateIncrement" class="form-control" tabindex="4" />
-              <div class="input-group-append"><span class="input-group-text">%</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <div class="cash-flow-title">Cash Flow</div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <button type="button" class="btn btn-primary float-right" [tabindex]="-1" (click)="addCashFlowControl()">
-              <i class="fa fa-plus-circle"></i>
-              Add Cash Flow
-            </button>
-          </div>
-        </div>
-
-        <div formArrayName="cashFlows">
-          <div class="form-row" *ngFor="let ctrl of cashFlowFormArray.controls; let i = index;">
-            <div class="form-group col-md-4">
-              <label class="col-form-label">{{ 'Cash Flow '.concat(i + 1) }}</label>
-            </div>
-            <div class="form-group col-md-8">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">$</span>
+    <div class="container">
+        <div class="row">
+            <!-- #region -->
+            <div class="col-md-6 form-container pt-4">
+                <div class="form-row">
+                    <div class="form-group col-md-10">
+                        <div class="cash-flow-title text-center">
+                            <h3>Net Present Value</h3>
+                        </div>
+                    </div>
                 </div>
-                <input [formControlName]="i" type="number" class="form-control" [tabindex]="5 + i" />
-                <div class="input-group-append">
-                  <button type="button" class="btn btn-danger" data-toggle="Delete this Cash Flow"
-                    title="Delete this Cash Flow" tabindex="-1" [disabled]="!canDeleteCashFlow"
-                    (click)="deleteCashFlowControl(i)">
-                    <i class="fa fa-times-circle"></i>
-                    <!-- <fa-icon [icon]="['far', 'calendar']"></fa-icon> -->
-                  </button>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="col-form-label">Initial Investment</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                            <input type="number" formControlName="initialInvestment" class="form-control" tabindex="1" />
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="col-form-label">Lower Bound Discount Rate</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <input type="number" formControlName="lowerBoundDiscountRate" class="form-control" tabindex="2" />
+                            <div class="input-group-append"><span class="input-group-text">%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="col-form-label">Upper Bound Discount Rate</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <input type="number" formControlName="upperBoundDiscountRate" class="form-control" tabindex="3" />
+                            <div class="input-group-append"><span class="input-group-text">%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="col-form-label">Discount Rate Increment</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group">
+                            <input type="number" formControlName="discountRateIncrement" class="form-control" tabindex="4" />
+                            <div class="input-group-append"><span class="input-group-text">%</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <div class="cash-flow-title">Cash Flow</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <button type="button" class="btn btn-primary float-right" [tabindex]="-1" (click)="addCashFlowControl()">
+                            <i class="fa fa-plus-circle"></i> Add Cash Flow </button>
+                    </div>
+                </div>
+                <div formArrayName="cashFlows">
+                    <div class="form-row" *ngFor="let ctrl of cashFlowFormArray.controls; let i = index;">
+                        <div class="form-group col-md-4">
+                            <label class="col-form-label">{{ 'Cash Flow '.concat(i + 1) }}</label>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input [formControlName]="i" type="number" class="form-control" [tabindex]="5 + i" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-danger" data-toggle="Delete this Cash Flow" title="Delete this Cash Flow" tabindex="-1" [disabled]="!canDeleteCashFlow" (click)="deleteCashFlowControl(i)">
+                                        <i class="fa fa-times-circle"></i>
+                                        <!-- <fa-icon [icon]="['far', 'calendar']"></fa-icon> -->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary mr-2" [tabindex]="currentTabIndex + 1" (click)="calculate()">
+                                <i class="fa fa-check-circle"></i> Calculate </button>
+                            <button type="button" class="btn btn-primary" [tabindex]="currentTabIndex + 2" (click)="clear()">
+                                <i class="fa fa-times-circle"></i> Clear </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <div class="float-right">
-              <button type="button" class="btn btn-primary mr-2" [tabindex]="currentTabIndex + 1" (click)="calculate()">
-                <i class="fa fa-check-circle"></i>
-                Calculate
-              </button>
-              <button type="button" class="btn btn-primary" [tabindex]="currentTabIndex + 2" (click)="clear()">
-                <i class="fa fa-times-circle"></i>
-                Clear
-              </button>
+            <!-- endregion -->
+            <!-- #region -->
+            <div class="col-md-6">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <ngx-datatable class="material" [rows]="rows | async" [sortType]="'single'" [loadingIndicator]="isLoading" [columnMode]="'force'" [limit]=" 12" [reorderable]="true" [externalPaging]="false" [rowHeight]="50" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="false" [scrollbarV]="true" [summaryRow]="false" [summaryPosition]="'bottom'" style="height: 700px;">
+                            <ngx-datatable-column prop="value" name="Net Present Value">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span class="table-header">{{ column.name }}</span>
+                                </ng-template>
+                                <ng-template let-value="value" ngx-datatable-cell-template>{{ value | number: '1.2-2' }}</ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column prop="rate" name="Rate">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span class="table-header">{{ column.name }}</span>
+                                </ng-template>
+                                <ng-template let-value=" value" ngx-datatable-cell-template> {{ value | number: '1.2-2' }}</ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
             </div>
-          </div>
+            <!-- endregion -->
         </div>
-
-      </div>
-
-      <!-- RIGHT -->
-      <div class="col-md-6">
-        <div class="form-row">
-          <div class="form-group col-md-12">
-            <ngx-datatable class="material" [rows]="rows | async" [loadingIndicator]="false" [columnMode]="'force'"
-              [limit]="12" [reorderable]="true" [externalPaging]="false" [rowHeight]="50" [headerHeight]="50"
-              [footerHeight]="50" [scrollbarH]="false" [scrollbarV]="true" [summaryRow]="false"
-              [summaryPosition]="'bottom'" style="height: 700px;">
-
-              <ngx-datatable-column prop="value" name="Net Present Value">
-                <ng-template let-column="column" ngx-datatable-header-template>
-                  <span class="table-header">{{ column.name }}</span>
-                </ng-template>
-                <ng-template let-value="value" ngx-datatable-cell-template>{{ value | number: '1.2-2' }}</ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column prop="rate" name="Rate">
-                <ng-template let-column="column" ngx-datatable-header-template>
-                  <span class="table-header">{{ column.name }}</span>
-                </ng-template>
-                <ng-template let-value=" value" ngx-datatable-cell-template>{{ value }}</ng-template>
-              </ngx-datatable-column>
-            </ngx-datatable>
-          </div>
+        <div class="row mt-5">
+            <div class="form-group col-md-12">
+                <app-tabbed-charts [chartLabels]="chartLabels" [chartData]="chartData">
+                </app-tabbed-charts>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="row mt-5">
-      <div class="form-group col-md-12">
-        <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels"
-          [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
-          [plugins]="lineChartPlugins">
-        </canvas>
-      </div>
-    </div>
-  </div>
 </form>

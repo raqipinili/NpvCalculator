@@ -1,5 +1,42 @@
 {
-  "editor.tabSize": 4,
-  "editor.insertSpaces": true,
-  "editor.detectIndentation": false
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    // "editor.defaultFormatter": "HookyQR.beautify"
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.fontFamily": "'Courier New', monospace",
+    "editor.fontSize": 12,
+    "editor.wordWrap": "off",
+    "explorer.confirmDelete": false,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 5000,
+    "workbench.colorTheme": "One Monokai",
+    "workbench.iconTheme": "material-icon-theme",
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features",
+        "editor.foldingStrategy": "auto",
+    },
+    "html.format.wrapLineLength": 0,
+    "html.format.unformatted": null,
+    "html.format.contentUnformatted": null,
+    "html.format.extraLiners": null,
+    "html.format.preserveNewLines": false,
+    "html.format.maxPreserveNewLines": 1,
+    "html.format.endWithNewline": true,
+    "html.format.indentInnerHtml": true,
+    "html.format.wrapAttributes": "aligned-multiple",
+
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[jsonc]": {
+        // "editor.defaultFormatter": "HookyQR.beautify"
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    // "prettier.tabWidth": 4
 }

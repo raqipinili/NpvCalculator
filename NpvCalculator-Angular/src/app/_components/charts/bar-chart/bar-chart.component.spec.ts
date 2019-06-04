@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageNotFoundComponent } from './page-not-found.component';
+import { BarChartComponent } from './bar-chart.component';
 
-describe('PageNotFoundComponent', () => {
-    let component: PageNotFoundComponent;
-    let fixture: ComponentFixture<PageNotFoundComponent>;
+describe('BarChartComponent', () => {
+    let component: BarChartComponent;
+    let fixture: ComponentFixture<BarChartComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [PageNotFoundComponent]
+            declarations: [BarChartComponent]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(PageNotFoundComponent);
+        fixture = TestBed.createComponent(BarChartComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
