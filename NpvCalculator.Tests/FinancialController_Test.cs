@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NpvCalculator.Api.Controllers;
-using NpvCalculator.Core;
 using NpvCalculator.Core.Classes;
+using NpvCalculator.Core.Services;
 using System.Collections.Generic;
 using Xunit;
 
@@ -40,11 +40,6 @@ namespace NpvCalculator.Tests
 
             Assert.NotNull(okResult);
             Assert.Equal(200, okResult.StatusCode);
-        }
-
-        private IEnumerable<PeriodAmount> Test(IEnumerable<PeriodAmount> a)
-        {
-            yield return new PeriodAmount() { Amount = 100D, Period = 1 };
         }
     }
 }

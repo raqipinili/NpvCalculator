@@ -1,7 +1,7 @@
 ﻿using NpvCalculator.Core.Classes;
 using System.Collections.Generic;
 
-namespace NpvCalculator.Core
+namespace NpvCalculator.Core.Services
 {
     public interface IFinancialCalculator
     {

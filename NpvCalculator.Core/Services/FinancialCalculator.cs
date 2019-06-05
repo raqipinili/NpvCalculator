@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NpvCalculator.Core
+namespace NpvCalculator.Core.Services
 {
     public class FinancialCalculator : IFinancialCalculator
     {

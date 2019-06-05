@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NpvCalculator.Api.Configuration.Startup;
+using NpvCalculator.Security.Helpers;
 
 namespace NpvCalculator.Api
 {
@@ -19,8 +20,15 @@ namespace NpvCalculator.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            string secretKey = Configuration.GetSection("AppSettings:SecretKey").Value;
+            var signingCredentials = AuthHelper.GetSigningCredentials(secretKey);
+
             services.ConfigureScopedServices();
+            services.ConfigureDatabase(Configuration);
             services.ConfigureCors();
+            services.ConfigureJwtOptions(Configuration, signingCredentials);
+            services.ConfigureAuthentication(Configuration, signingCredentials.Key);
+            services.ConfigureAuthorization();
             services.ConfigureMvc();
         }
 
@@ -38,6 +46,7 @@ namespace NpvCalculator.Api
 
             app.UseCors("localhost_4200");
             // app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

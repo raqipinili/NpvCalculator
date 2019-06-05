@@ -1,0 +1,59 @@
+<div class="register-form form-container">
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <h2 class="text-center">Register</h2>
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="firstname-icon-span" class="input-group-text">
+                        <i class="fa fa-user-circle"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" name="firstname" formControlName="firstname" placeholder="Firstname" aria-label="firstname" aria-describedby="firstname-icon-span" [ngClass]="{ 'is-invalid': submitted && registerForm.get('firstname').errors }">
+                <div *ngIf="submitted && registerForm.get('firstname').hasError('required')" class="invalid-feedback">Firstname is required</div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="lastname-icon-span" class="input-group-text">
+                        <i class="fa fa-user-circle"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" name="lastname" formControlName="lastname" placeholder="Lastname" aria-label="lastname" aria-describedby="lastname-icon-span" [ngClass]="{ 'is-invalid': submitted && registerForm.get('lastname').errors }">
+                <div *ngIf="submitted && registerForm.get('lastname').hasError('required')" class="invalid-feedback">Lastname is required</div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="username-icon-span" class="input-group-text">
+                        <i class="fa fa-user"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" name="username" formControlName="username" placeholder="Username" aria-label="Username" aria-describedby="username-icon-span" [ngClass]="{ 'is-invalid': submitted && registerForm.get('username').errors }">
+                <div *ngIf="submitted && registerForm.get('username').hasError('required')" class="invalid-feedback">Username is required</div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="password-icon-span" class="input-group-text">
+                        <i class="fa fa-lock"></i>
+                    </span>
+                </div>
+                <input type="password" class="form-control" name="password" formControlName="password" placeholder="Password" aria-label="Password" aria-describedby="password-icon-span" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && registerForm.get('password').errors }">
+                <div *ngIf="submitted && registerForm.get('password').hasError('required')" class="invalid-feedback">Password is required</div>
+                <div *ngIf="submitted && registerForm.get('password').hasError('minlength')" class="invalid-feedback">Password must be at least 4 characters</div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="password-confirm-icon-span" class="input-group-text">
+                        <i class="fa fa-lock"></i>
+                    </span>
+                </div>
+                <input type="password" class="form-control" name="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password" aria-label="confirmPassword" aria-describedby="password-confirm-icon-span" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && registerForm.get('confirmPassword').errors }">
+                <div *ngIf="submitted && registerForm.get('confirmPassword').hasError('required')" class="invalid-feedback"> Confirm password is required</div>
+                <div *ngIf="submitted && registerForm.get('confirmPassword').hasError('minlength')" class="invalid-feedback"> Confirm password must be at least 4 characters</div>
+                <div *ngIf="submitted && registerForm.get('confirmPassword').hasError('mustMatch')" class="invalid-feedback"> Password does not match!</div>
+            </div>
+            <div class="form-group text-center">
+                <button class="btn btn-success mr-3" type="submit">Register</button>
+                <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

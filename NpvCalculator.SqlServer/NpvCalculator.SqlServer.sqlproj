@@ -56,5 +56,33 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Calculator" />
+    <Folder Include="Lookup" />
+    <Folder Include="Scripts" />
+    <Folder Include="Security" />
+    <Folder Include="Calculator\Tables" />
+    <Folder Include="Calculator\Schema" />
+    <Folder Include="Security\Tables" />
+    <Folder Include="Security\Schema" />
+    <Folder Include="Lookup\Schema" />
+    <Folder Include="Lookup\Tables" />
+    <Folder Include="Lookup\Insert" />
+    <Folder Include="Scripts\Post Deployment" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Calculator\Tables\NetPresentValues.sql" />
+    <Build Include="Calculator\Schema\Schema.sql" />
+    <Build Include="Security\Schema\Schema.sql" />
+    <Build Include="Security\Tables\Users.sql" />
+    <Build Include="Lookup\Schema\Lookup.sql" />
+    <Build Include="Lookup\Tables\CalculatorTypes.sql" />
+    <Build Include="Security\Tables\UserNetPresentValues.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Lookup\Insert\CalculatorTypes.sql" />
+    <None Include="NpvCalculator.SqlServer.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Post Deployment\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

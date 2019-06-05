@@ -1,5 +1,5 @@
-using NpvCalculator.Core;
 using NpvCalculator.Core.Classes;
+using NpvCalculator.Core.Services;
 using NpvCalculator.Tests.Data;
 using System;
 using System.Collections.Generic;

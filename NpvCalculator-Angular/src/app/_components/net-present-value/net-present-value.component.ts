@@ -6,9 +6,7 @@ import { NetPresentValueRequest } from 'src/app/_models/net-present-value-reques
 import { NetPresentValue } from 'src/app/_models/net-present-value';
 import { Observable, of, Subscription } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { MessageBoxComponent } from '../message-box/message-box.component';
 import { getAllControlErrors, showMessageBox } from 'src/app/_helpers/helper-functions';
-
 
 @Component({
     selector: 'app-net-present-value',

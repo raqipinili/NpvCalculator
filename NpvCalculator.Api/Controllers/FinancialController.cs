@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NpvCalculator.Core;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NpvCalculator.Core.Classes;
+using NpvCalculator.Core.Services;
 using System.Collections.Generic;
 
 namespace NpvCalculator.Api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FinancialController : ControllerBase

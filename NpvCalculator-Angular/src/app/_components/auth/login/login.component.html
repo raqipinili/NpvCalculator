@@ -1,0 +1,37 @@
+<div class="login-form form-container">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <h2 class="text-center">Sign in</h2>
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="username-icon-span" class="input-group-text">
+                        <i class="fa fa-user"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" name="username" formControlName="username" placeholder="Username" aria-label="Username" aria-describedby="username-icon-span" [ngClass]="{ 'is-invalid': submitted && loginForm.get('username').errors }">
+                <div *ngIf="submitted && loginForm.get('username').hasError('required')" class="invalid-feedback">Username is required</div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="password-icon-span" class="input-group-text">
+                        <i class="fa fa-lock"></i>
+                    </span>
+                </div>
+                <input type="password" class="form-control" name="password" formControlName="password" placeholder="Password" aria-label="Password" aria-describedby="password-icon-span" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && loginForm.get('password').errors }">
+                <div *ngIf="submitted && loginForm.get('password').hasError('required')" class="invalid-feedback">Password is required</div>
+                <div *ngIf="submitted && loginForm.get('password').hasError('minlength')" class="invalid-feedback">Password must be at least 4 characters</div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success login-btn btn-block">Login</button>
+            </div>
+            <!-- <div class="clearfix">
+        <label class="pull-left checkbox-inline">
+          <input type="checkbox"> 
+          Remember me
+        </label>
+        <a href="#" class="pull-right">Forgot Password?</a>
+      </div> -->
+        </div>
+        <div class="text-center text-muted small">Don't have an account? <a [routerLink]="['/register']">Sign up here!</a></div>
+    </form>
+</div>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NpvCalculator.Core;
+using NpvCalculator.Core.Services;
+using NpvCalculator.Security.Services;
 
 namespace NpvCalculator.Api.Configuration.Startup
 {
@@ -7,6 +8,7 @@ namespace NpvCalculator.Api.Configuration.Startup
     {
         public static IServiceCollection ConfigureScopedServices(this IServiceCollection services)
         {
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IFinancialCalculator, FinancialCalculator>();
             return services;
         }

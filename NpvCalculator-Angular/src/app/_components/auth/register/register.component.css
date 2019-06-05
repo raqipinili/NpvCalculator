@@ -1,0 +1,27 @@
+.register-form {
+  width: 385px;
+  margin: 30px auto;
+}
+
+.register-form form {
+  padding: 30px;
+}
+
+.register-form h2 {
+  margin: 0 0 15px;
+}
+
+.form-control,
+.register-btn {
+  min-height: 38px;
+  border-radius: 2px;
+}
+
+.input-group-addon .fa {
+  font-size: 18px;
+}
+
+.register-btn {
+  font-size: 15px;
+  font-weight: bold;
+}

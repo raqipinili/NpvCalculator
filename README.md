@@ -44,6 +44,7 @@ open http://localhost:4200/ in browser
 **Backend**
 
 * xunit
+* Moq
 
 **Frontend**
 
@@ -54,3 +55,4 @@ open http://localhost:4200/ in browser
 * ng2-charts@2.2.3
 * chartjs-plugin-annotation
 * ~~@angular/material~~
+* @auth0/angular-jwt
