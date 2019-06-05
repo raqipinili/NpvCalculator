@@ -4,6 +4,7 @@ namespace NpvCalculator.Core.Classes
 {
     public class NetPresentValueResponse
     {
+        public int NetPresentValueId { get; set; }
         public string Name { get; set; }
         public double InitialInvestment { get; set; }
         public double LowerBoundDiscountRate { get; set; }

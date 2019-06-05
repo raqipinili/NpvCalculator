@@ -99,6 +99,7 @@ namespace NpvCalculator.Api.Controllers
 
                 result = new NetPresentValueResponse()
                 {
+                    NetPresentValueId = npv.NetPresentValueId,
                     Name = npv.Name,
                     InitialInvestment = npv.InitialInvestment,
                     LowerBoundDiscountRate = npv.LowerBoundDiscountRate,
@@ -126,6 +127,7 @@ namespace NpvCalculator.Api.Controllers
 
                 result = new NetPresentValueResponse()
                 {
+                    NetPresentValueId = 0,
                     Name = null,
                     InitialInvestment = 1500D,
                     LowerBoundDiscountRate = 1D,
