@@ -5,7 +5,6 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace NpvCalculator.Core.Services
 {
@@ -23,7 +22,7 @@ namespace NpvCalculator.Core.Services
             //if (await _context.NetPresentValues.AnyAsync(r => r.Name == request.Name))
             //    throw new Exception($"Error: NetPresentValue '{request.Name}' already exists");
 
-            var npv = new Data.Entities.NetPresentValue()
+            var npv = new Entities.NetPresentValue()
             {
                 Name = null,
                 InitialInvestment = request.InitialInvestment,
@@ -33,6 +32,7 @@ namespace NpvCalculator.Core.Services
                 CreatedDate = DateTime.UtcNow
             };
 
+            /* https://devblogs.microsoft.com/cesardelatorre/using-resilient-entity-framework-core-sql-connections-and-transactions-retries-with-exponential-backoff/ */
             var strategy = _context.Database.CreateExecutionStrategy();
             await strategy.ExecuteAsync(async () =>
             {
@@ -71,23 +71,15 @@ namespace NpvCalculator.Core.Services
 
         public async Task<Entities.NetPresentValue> GetNetPresentValueLatest(Guid userId)
         {
-            try
-            {
-                var result = await (from unpv in _context.UserNetPresentValues
-                                    join npv in _context.NetPresentValues on unpv.NetPresentValueId equals npv.NetPresentValueId
-                                    where unpv.UserId == userId
-                                    select npv)
-                                    .Include(x => x.CashFlows)
-                                    .FirstOrDefaultAsync();
+            var result = await (from unpv in _context.UserNetPresentValues
+                                join npv in _context.NetPresentValues on unpv.NetPresentValueId equals npv.NetPresentValueId
+                                where unpv.UserId == userId
+                                orderby npv.CreatedDate descending
+                                select npv)
+                                .Include(x => x.CashFlows)
+                                .FirstOrDefaultAsync();
 
-                return result;
-
-            }
-            catch (Exception ex)
-            {
-                string str = ex.Message;
-                throw;
-            }
+            return result;
         }
     }
 }
