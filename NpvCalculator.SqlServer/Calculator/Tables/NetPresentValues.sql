@@ -2,10 +2,10 @@
 (
       [NetPresentValueId] INT NOT NULL IDENTITY(1, 1)
     , [Name] VARCHAR(128)
-    , [InitialInvestment] DECIMAL(19, 4) NOT NULL
-    , [LowerBoundDiscountRate] DECIMAL(13, 4) NOT NULL
-    , [UpperBoundDiscountRate] DECIMAL(13, 4) NOT NULL
-    , [DiscountRateIncrement] DECIMAL(13, 4) NOT NULL
+    , [InitialInvestment] FLOAT NOT NULL
+    , [LowerBoundDiscountRate] FLOAT NOT NULL
+    , [UpperBoundDiscountRate] FLOAT NOT NULL
+    , [DiscountRateIncrement] FLOAT NOT NULL
     , [CreatedDate] DATETIME NOT NULL DEFAULT GETUTCDATE()
     , [LastUpdatedDate] DATETIME
 

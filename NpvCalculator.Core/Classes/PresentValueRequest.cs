@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NpvCalculator.Core.Classes
+﻿namespace NpvCalculator.Core.Classes
 {
     public class PresentValueRequest
     {

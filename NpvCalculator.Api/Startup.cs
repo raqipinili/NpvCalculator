@@ -29,6 +29,7 @@ namespace NpvCalculator.Api
             services.ConfigureJwtOptions(Configuration, signingCredentials);
             services.ConfigureAuthentication(Configuration, signingCredentials.Key);
             services.ConfigureAuthorization();
+            services.ConfigureContextAccessor();
             services.ConfigureMvc();
         }
 

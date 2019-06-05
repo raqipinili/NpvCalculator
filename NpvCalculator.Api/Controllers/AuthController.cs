@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NpvCalculator.Core;
-using NpvCalculator.Core.Classes;
 using NpvCalculator.Security.Classes;
 using NpvCalculator.Security.Services;
-using System;
 using System.Threading.Tasks;
 
 namespace NpvCalculator.Api.Controllers

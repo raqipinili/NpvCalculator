@@ -26,10 +26,12 @@ namespace NpvCalculator.Tests
                 Periods = 10
             };
 
-            var mockService = new Mock<IFinancialCalculator>();
-            mockService.Setup(s => s.CalculatePresentValueMulti(request.FutureValue, request.DiscountRate, request.Periods)).Returns(It.IsAny<IEnumerable<PeriodAmount>>());
+            var mockCalc = new Mock<IFinancialCalculator>();
+            mockCalc.Setup(s => s.CalculatePresentValueMulti(request.FutureValue, request.DiscountRate, request.Periods)).Returns(It.IsAny<IEnumerable<PeriodAmount>>());
 
-            var controller = new FinancialController(mockService.Object);
+            var mockService = new Mock<IFinancialService>();
+
+            var controller = new FinancialController(mockCalc.Object, mockService.Object);
 
             // Act
             var result = controller.CalculatePresentValue(request);

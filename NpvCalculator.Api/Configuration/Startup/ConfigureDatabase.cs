@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NpvCalculator.Data;
+using System;
 
 namespace NpvCalculator.Api.Configuration.Startup
 {
@@ -11,7 +12,9 @@ namespace NpvCalculator.Api.Configuration.Startup
         {
             // SQL Server
             string sqlServerConnection = config.GetConnectionString("SqlServerConnection");
-            services.AddDbContext<CalculatorDbContext>(options => options.UseSqlServer(sqlServerConnection, opt => opt.EnableRetryOnFailure()));
+            services.AddDbContext<CalculatorDbContext>(options =>
+                options.UseSqlServer(sqlServerConnection, sqlServerOptionsAction: opt =>
+                    opt.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null)));
 
             // Sqlite
             //string sqliteConnection = config.GetConnectionString("SqliteConnection");

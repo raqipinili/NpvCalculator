@@ -60,7 +60,7 @@ namespace NpvCalculator.Core.Services
             return npv - initialInvestment;
         }
 
-        public IEnumerable<NetPresentValue> CalculateNetPresentValueDynamicRate(
+        public IEnumerable<NetPresentValuePerRate> CalculateNetPresentValueDynamicRate(
             double initialInvestment,
             double lowerBoundDiscountRate,
             double upperBoundDiscountRate,
@@ -72,13 +72,13 @@ namespace NpvCalculator.Core.Services
             FinancialValidator.ValidateRateIncrement(upperBoundDiscountRate, discountRateIncrement);
             cashFlows.ToList().ForEach(cf => FinancialValidator.ValidateExponent(cf.Period));
 
-            var netPresentValues = new List<NetPresentValue>();
+            var netPresentValues = new List<NetPresentValuePerRate>();
 
             for (double rate = lowerBoundDiscountRate; rate <= upperBoundDiscountRate; rate += discountRateIncrement)
             {
                 var value = CalculateNetPresentValue(initialInvestment, rate, cashFlows);
 
-                netPresentValues.Add(new NetPresentValue()
+                netPresentValues.Add(new NetPresentValuePerRate()
                 {
                     Amount = value,
                     Rate = rate

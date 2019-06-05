@@ -10,6 +10,7 @@ namespace NpvCalculator.Api.Configuration.Startup
         {
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IFinancialCalculator, FinancialCalculator>();
+            services.AddTransient<IFinancialService, FinancialService>();
             return services;
         }
     }

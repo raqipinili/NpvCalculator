@@ -10,7 +10,7 @@ namespace NpvCalculator.Core.Services
         double CalculateFutureValue(double presentValue, double rate, double exponent);
         IEnumerable<PeriodAmount> CalculateFutureValueMulti(double presentValue, double rate, int periods);
         double CalculateNetPresentValue(double initialInvestment, double rate, IEnumerable<PeriodAmount> cashFlows);
-        IEnumerable<NetPresentValue> CalculateNetPresentValueDynamicRate(
+        IEnumerable<NetPresentValuePerRate> CalculateNetPresentValueDynamicRate(
             double initialInvestment,
             double lowerBoundDiscountRate,
             double upperBoundDiscountRate,

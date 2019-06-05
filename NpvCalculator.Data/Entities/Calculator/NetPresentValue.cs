@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NpvCalculator.Data.Entities
 {
@@ -11,6 +12,8 @@ namespace NpvCalculator.Data.Entities
         public double UpperBoundDiscountRate { get; set; }
         public double DiscountRateIncrement { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime? LastUpdatedDate { get; set; }
+
+        public virtual ICollection<PeriodAmount> CashFlows { get; set; }
     }
 }

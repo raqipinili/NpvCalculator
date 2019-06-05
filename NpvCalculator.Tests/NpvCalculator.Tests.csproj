@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NpvCalculator.Api\NpvCalculator.Api.csproj" />
-    <ProjectReference Include="..\NpvCalculator.Core\NpvCalculator.Core.csproj" />
   </ItemGroup>
 
 </Project>

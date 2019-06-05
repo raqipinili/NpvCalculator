@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -21,6 +21,8 @@ import { RegisterComponent } from './_components/auth/register/register.componen
 import { MessageBoxComponent } from './_components/message-box/message-box.component';
 
 import { FinancialService } from './_services/financial.service';
+import { AuthGuard } from './_guards/auth.guard';
+import { AuthService } from './_services/auth.service';
 
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // import { library, dom } from '@fortawesome/fontawesome-svg-core';
@@ -59,7 +61,10 @@ export const tokenGetter = () => localStorage.getItem('token');
         // FontAwesomeModule
     ],
     providers: [
-        FinancialService
+        AuthService,
+        FinancialService,
+        AuthGuard,
+        // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true, }
     ],
     bootstrap: [
         AppComponent

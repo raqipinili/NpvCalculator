@@ -107,11 +107,11 @@ namespace NpvCalculator.Tests
             double upperBoundDiscountRate,
             double discountRateIncrement,
             IEnumerable<PeriodAmount> cashFlows,
-            IEnumerable<NetPresentValue> expectedValue)
+            IEnumerable<NetPresentValuePerRate> expectedValue)
         {
             // Arrange
             // Act
-            IEnumerable<NetPresentValue> actualValue = _calc.CalculateNetPresentValueDynamicRate(
+            IEnumerable<NetPresentValuePerRate> actualValue = _calc.CalculateNetPresentValueDynamicRate(
                                                         initialInvestment,
                                                         lowerBoundDiscountRate,
                                                         upperBoundDiscountRate,

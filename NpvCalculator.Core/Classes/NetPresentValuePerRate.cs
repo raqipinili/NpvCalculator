@@ -1,6 +1,6 @@
 ﻿namespace NpvCalculator.Core.Classes
 {
-    public class NetPresentValue
+    public class NetPresentValuePerRate
     {
         public double Amount { get; set; }
         public double Rate { get; set; }

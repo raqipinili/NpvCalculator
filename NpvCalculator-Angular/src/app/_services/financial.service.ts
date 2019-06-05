@@ -6,8 +6,9 @@ import { environment } from 'src/environments/environment';
 import { NetPresentValueRequest } from '../_models/net-present-value-request';
 import { PresentValueRequest } from '../_models/present-value-request';
 import { FutureValueRequest } from '../_models/future-value-request';
-import { NetPresentValue } from '../_models/net-present-value';
+import { NetPresentValuePerRate } from '../_models/net-present-value-per-rate';
 import { PeriodAmount } from '../_models/period-amount';
+import { NetPresentValueResponse } from '../_models/net-present-value-response';
 
 
 @Injectable({
@@ -18,15 +19,19 @@ export class FinancialService {
 
     constructor(private http: HttpClient) { }
 
-    getNetPresentValueDynamicRate(npvRequest: NetPresentValueRequest): Observable<NetPresentValue[]> {
-        return this.http.post<NetPresentValue[]>(this.baseUrl + '/npv/dynamicrate', npvRequest);
+    getNetPresentValueDynamicRate(request: NetPresentValueRequest): Observable<NetPresentValuePerRate[]> {
+        return this.http.post<NetPresentValuePerRate[]>(this.baseUrl + '/npv/dynamicrate', request);
     }
 
-    getPresentValueMulti(pvRequest: PresentValueRequest): Observable<PeriodAmount[]> {
-        return this.http.post<PeriodAmount[]>(this.baseUrl + '/pv/multi', pvRequest);
+    getPresentValueMulti(request: PresentValueRequest): Observable<PeriodAmount[]> {
+        return this.http.post<PeriodAmount[]>(this.baseUrl + '/pv/multi', request);
     }
 
-    getFutureValueMulti(fvRequest: FutureValueRequest): Observable<PeriodAmount[]> {
-        return this.http.post<PeriodAmount[]>(this.baseUrl + '/fv/multi', fvRequest);
+    getFutureValueMulti(request: FutureValueRequest): Observable<PeriodAmount[]> {
+        return this.http.post<PeriodAmount[]>(this.baseUrl + '/fv/multi', request);
+    }
+
+    getNetPresentValueLatest(): Observable<NetPresentValueResponse> {
+        return this.http.get<NetPresentValueResponse>(this.baseUrl + '/npv/getlatest');
     }
 }

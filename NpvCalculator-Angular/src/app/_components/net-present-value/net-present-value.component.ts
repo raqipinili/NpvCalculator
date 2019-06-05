@@ -3,10 +3,13 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators, AbstractCon
 import { FinancialService } from 'src/app/_services/financial.service';
 import { CashFlow } from 'src/app/_models/cash-flow';
 import { NetPresentValueRequest } from 'src/app/_models/net-present-value-request';
-import { NetPresentValue } from 'src/app/_models/net-present-value';
+import { NetPresentValuePerRate } from 'src/app/_models/net-present-value-per-rate';
 import { Observable, of, Subscription } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { getAllControlErrors, showMessageBox } from 'src/app/_helpers/helper-functions';
+import { PeriodAmount } from 'src/app/_models/period-amount';
+import { ActivatedRoute } from '@angular/router';
+import { NetPresentValueResponse } from 'src/app/_models/net-present-value-response';
 
 @Component({
     selector: 'app-net-present-value',
@@ -15,18 +18,16 @@ import { getAllControlErrors, showMessageBox } from 'src/app/_helpers/helper-fun
 })
 export class NetPresentValueComponent implements OnInit, OnDestroy {
     bsModalRef: BsModalRef;
+    serviceSubscription: Subscription;
     npvForm: FormGroup;
-    cashFlowCount = 5;
     rows: Observable<any[]>;
-    serviceSubscription: Subscription = null;
     // columns: any[] = [
     //     { prop: 'value', name: 'Net Present Value' },
     //     { prop: 'rate', name: 'Rate' }
     // ];
-
-    isLoading = false;
     chartLabels = null;
     chartData = null;
+    isLoading = false;
 
     get cashFlowFormArray(): FormArray {
         return this.npvForm.get('cashFlows') as FormArray;
@@ -40,24 +41,26 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
         return 4 + this.cashFlowFormArray.controls.length;
     }
 
-    get defaultCashFlowValues(): number[] {
-        return new Array<number>(this.cashFlowCount).fill(null);
-    }
-
     constructor(
+        private activatedRoute: ActivatedRoute,
         private formBuilder: FormBuilder,
         private financialService: FinancialService,
         private modalService: BsModalService) {
         this.npvForm = this.formBuilder.group({
-            initialInvestment: [15000, Validators.required],
-            lowerBoundDiscountRate: [1, Validators.required],
-            upperBoundDiscountRate: [15, Validators.required],
-            discountRateIncrement: [.25, Validators.required],
-            cashFlows: this.formBuilder.array(this.defaultCashFlowValues)
+            initialInvestment: ['', Validators.required],
+            lowerBoundDiscountRate: ['', Validators.required],
+            upperBoundDiscountRate: ['', Validators.required],
+            discountRateIncrement: ['', Validators.required],
+            cashFlows: this.formBuilder.array([null])
         });
     }
 
     ngOnInit() {
+        this.activatedRoute.data.subscribe(data => {
+            // tslint:disable-next-line: no-string-literal
+            const netPresentValueData = data['netPresentValue'];
+            this.setFormData(netPresentValueData);
+        });
     }
 
     ngOnDestroy() {
@@ -67,8 +70,51 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
         }
     }
 
+    setFormData(data: NetPresentValueResponse) {
+        if (data) {
+            this.npvForm.setValue({
+                initialInvestment: data.initialInvestment,
+                lowerBoundDiscountRate: data.lowerBoundDiscountRate,
+                upperBoundDiscountRate: data.upperBoundDiscountRate,
+                discountRateIncrement: data.discountRateIncrement,
+                cashFlows: [null]
+            });
+
+            if (data.cashFlows) {
+                const cashFlowLength = Math.max(...data.cashFlows.map(cf => cf.period));
+
+                for (let i = 1; i <= cashFlowLength - 1; i++) {
+                    this.cashFlowFormArray.push(new FormControl(null));
+                }
+
+                data.cashFlows.forEach((cf: CashFlow) => {
+                    this.cashFlowFormArray.at(cf.period - 1).setValue(cf.amount);
+                });
+            }
+
+            this.rows = this.getTableData(data.results);
+            const chartDataAndLabels = this.getChartData(data.results);
+            this.chartLabels = chartDataAndLabels[0];
+            this.chartData = chartDataAndLabels[1];
+        }
+    }
+
+    getChartData(npvs: NetPresentValuePerRate[]) {
+        const labels: string[] = npvs.map(npv => npv.rate.toFixed(2));
+        const data = [{
+            data: npvs.map(npv => Number(npv.amount.toFixed(2))),
+            label: 'Net Present Value'
+        }];
+
+        return [labels, data];
+    }
+
+    getTableData(data: NetPresentValuePerRate[]): Observable<NetPresentValuePerRate[]> {
+        return of(data);
+    }
+
     addCashFlowControl() {
-        this.cashFlowFormArray.push(new FormControl(null, Validators.required));
+        this.cashFlowFormArray.push(new FormControl(null));
     }
 
     deleteCashFlowControl(index: number) {
@@ -86,8 +132,10 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
             lowerBoundDiscountRate: this.npvForm.value.lowerBoundDiscountRate,
             upperBoundDiscountRate: this.npvForm.value.upperBoundDiscountRate,
             discountRateIncrement: this.npvForm.value.discountRateIncrement,
-            cashFlows: this.npvForm.value.cashFlows.map((value: number, index: number) =>
-                ({ period: index + 1, amount: value || 0 } as CashFlow))
+            cashFlows: this.npvForm.value.cashFlows
+                .map((value: number, index: number) =>
+                    ({ period: index + 1, amount: value || 0 } as CashFlow))
+                .filter((cf: PeriodAmount) => cf.amount !== 0)
         } as NetPresentValueRequest;
     }
 
@@ -107,13 +155,11 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
         const npvFormValues = this.getNpvFormValues();
 
         this.serviceSubscription = this.financialService.getNetPresentValueDynamicRate(npvFormValues).subscribe(
-            (response: NetPresentValue[]) => {
-                this.rows = of(response);
-                this.chartLabels = response.map(npv => npv.rate.toFixed(2));
-                this.chartData = [{
-                    data: response.map(npv => Number(npv.amount.toFixed(2))),
-                    label: 'Net Present Value'
-                }];
+            (response: NetPresentValuePerRate[]) => {
+                this.rows = this.getTableData(response);
+                const chartDataAndLabels = this.getChartData(response);
+                this.chartLabels = chartDataAndLabels[0];
+                this.chartData = chartDataAndLabels[1];
             }, error => {
                 console.log(error, 'Error in getNetPresentValueDynamicRate method');
                 this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', [`${error.status} - ${error.statusText}`]);
@@ -124,24 +170,26 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
     }
 
     clear() {
-        while (this.cashFlowFormArray.length !== 0) {
-            this.cashFlowFormArray.removeAt(0);
-        }
-
-        for (const value of this.defaultCashFlowValues) {
-            this.cashFlowFormArray.push(new FormControl(value, Validators.required));
-        }
-
         this.isLoading = false;
         this.rows = null;
         this.chartLabels = null;
         this.chartData = null;
 
         this.npvForm.reset({
-            initialInvestment: 1500,
-            lowerBoundDiscountRate: 1,
-            upperBoundDiscountRate: 15,
-            discountRateIncrement: .25
+            initialInvestment: null,
+            lowerBoundDiscountRate: null,
+            upperBoundDiscountRate: null,
+            discountRateIncrement: null,
+            cashFlows: new Array(this.cashFlowFormArray.length).fill(null)
         });
+
+        this.npvForm.markAsPristine();
+        this.npvForm.markAsUntouched();
+        this.cashFlowFormArray.markAsPristine();
+        this.cashFlowFormArray.markAsUntouched();
+
+        console.log(this.npvForm, 'form group');
+        console.log(this.cashFlowFormArray, 'form array');
+
     }
 }

@@ -77,6 +77,7 @@
     <Build Include="Lookup\Schema\Lookup.sql" />
     <Build Include="Lookup\Tables\CalculatorTypes.sql" />
     <Build Include="Security\Tables\UserNetPresentValues.sql" />
+    <Build Include="Calculator\Tables\PeriodAmounts.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lookup\Insert\CalculatorTypes.sql" />
