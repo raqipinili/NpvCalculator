@@ -1,6 +1,10 @@
 # NpvCalculator
 Net Present Value Calculator
 
+
+[![Build Status](https://dev.azure.com/raqipinili/NpvCalculator/_apis/build/status/raqipinili.NpvCalculator?branchName=master)](https://dev.azure.com/raqipinili/NpvCalculator/_build/latest?definitionId=4&branchName=master)
+
+
 ## How to run
 
 clone or download repository
