@@ -11,12 +11,13 @@ namespace NpvCalculator.Data
         {
             modelBuilder.Entity<NetPresentValue>().ToTable(name: "NetPresentValues", schema: "Calculator");
             modelBuilder.Entity<PeriodAmount>().ToTable(name: "PeriodAmounts", schema: "Calculator");
-            
-
+           
             modelBuilder.Entity<CalculatorType>().ToTable(name: "CalculatorTypes", schema: "Lookup");
 
             modelBuilder.Entity<User>().ToTable(name: "Users", schema: "Security");
             modelBuilder.Entity<UserNetPresentValue>().ToTable(name: "UserNetPresentValues", schema: "Security");
+            modelBuilder.Entity<UserPermission>().ToTable(name: "UserPermissions", schema: "Security");
+            modelBuilder.Entity<Permission>().ToTable(name: "Permissions", schema: "Security");
         }
 
         // Calculator
@@ -29,5 +30,7 @@ namespace NpvCalculator.Data
         // Security
         public DbSet<User> Users { get; set; }
         public DbSet<UserNetPresentValue> UserNetPresentValues { get; set; }
+        public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
     }
 }

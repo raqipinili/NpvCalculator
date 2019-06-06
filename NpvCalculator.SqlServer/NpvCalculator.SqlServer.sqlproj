@@ -68,6 +68,7 @@
     <Folder Include="Lookup\Tables" />
     <Folder Include="Lookup\Insert" />
     <Folder Include="Scripts\Post Deployment" />
+    <Folder Include="Security\Insert" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Calculator\Tables\NetPresentValues.sql" />
@@ -78,10 +79,13 @@
     <Build Include="Lookup\Tables\CalculatorTypes.sql" />
     <Build Include="Security\Tables\UserNetPresentValues.sql" />
     <Build Include="Calculator\Tables\PeriodAmounts.sql" />
+    <Build Include="Security\Tables\Permissions.sql" />
+    <Build Include="Security\Tables\UserPermissions.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lookup\Insert\CalculatorTypes.sql" />
     <None Include="NpvCalculator.SqlServer.publish.xml" />
+    <None Include="Security\Insert\Permissions.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Post Deployment\Script.PostDeployment.sql" />

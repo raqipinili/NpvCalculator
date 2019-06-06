@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NpvCalculator.Data.Entities
 {
@@ -15,6 +16,7 @@ namespace NpvCalculator.Data.Entities
         public DateTime CreatedDate { get; set; }
         public DateTime? LastUpdatedDate { get; set; }
 
-        // public virtual ICollection<UserNetPresentValue> UserNetPresentValues { get; set; }
+        public virtual ICollection<UserPermission> UserPermissions { get; set; }
+        public virtual ICollection<UserNetPresentValue> UserNetPresentValues { get; set; }
     }
 }

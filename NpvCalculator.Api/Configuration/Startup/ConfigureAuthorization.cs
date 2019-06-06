@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NpvCalculator.Security.Enums;
 
 namespace NpvCalculator.Api.Configuration.Startup
 {
@@ -8,7 +9,9 @@ namespace NpvCalculator.Api.Configuration.Startup
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("TestPolicy", policy => policy.RequireClaim("test.claim"));
+                options.AddPolicy("NPV", policy => policy.RequireClaim("permissions", new[] { ((int)Permissions.NetPresentValue).ToString() }));
+                options.AddPolicy("PV", policy => policy.RequireClaim("permissions", new[] { ((int)Permissions.PresentValue).ToString() }));
+                options.AddPolicy("FV", policy => policy.RequireClaim("permissions", new[] { ((int)Permissions.FutureValue).ToString() }));
             });
 
             return services;

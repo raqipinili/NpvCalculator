@@ -7,6 +7,6 @@
         public double Amount { get; set; }
         public int Period { get; set; }
 
-        public NetPresentValue NetPresentValue { get; set; }
+        public virtual NetPresentValue NetPresentValue { get; set; }
     }
 }

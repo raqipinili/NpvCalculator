@@ -1,4 +1,6 @@
-﻿namespace NpvCalculator.Security.Classes
+﻿using System.Collections.Generic;
+
+namespace NpvCalculator.Security.Classes
 {
     public class Register
     {
@@ -7,5 +9,6 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
+        public IEnumerable<int> Permissions { get; set; }
     }
 }

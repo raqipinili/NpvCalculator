@@ -24,6 +24,7 @@ namespace NpvCalculator.Api.Controllers
             _service = service;
         }
 
+        [Authorize(Policy = "PV")]
         [HttpPost("pv/multi")]
         public IActionResult CalculatePresentValue(PresentValueRequest request)
         {
@@ -35,6 +36,7 @@ namespace NpvCalculator.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(Policy = "FV")]
         [HttpPost("fv/multi")]
         public IActionResult CalculateFutureValue(FutureValueRequest request)
         {
@@ -46,6 +48,7 @@ namespace NpvCalculator.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(Policy = "NPV")]
         [HttpGet("npv")]
         public IActionResult CalculateNetPresentValue()
         {
@@ -66,6 +69,7 @@ namespace NpvCalculator.Api.Controllers
             return Ok(result);
         }
 
+        [Authorize(Policy = "NPV")]
         [HttpPost("npv/dynamicrate")]
         public async Task<IActionResult> CalculateNetPresentValueDynamicRate(NetPresentValueRequest request)
         {
@@ -82,6 +86,7 @@ namespace NpvCalculator.Api.Controllers
            return Ok(result);
         }
 
+        [Authorize(Policy = "NPV")]
         [HttpGet("npv/getlatest")]
         public async Task<IActionResult> GetNetPresentValueLatest()
         {

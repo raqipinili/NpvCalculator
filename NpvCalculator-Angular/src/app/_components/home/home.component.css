@@ -1,8 +1,10 @@
 .card {
   cursor: pointer;
-  -webkit-box-shadow: 1px 1px 8px 3px rgba(13, 13, 13, 0.5);
-  -moz-box-shadow: 1px 1px 8px 3px rgba(13, 13, 13, 0.5);
-  box-shadow: 1px 1px 8px 3px rgba(13, 13, 13, 0.5);
+  background-color: #f7f7f7 !important;
+  border: 0 !important;
+  -webkit-box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 2px 10px 1px rgba(0, 0, 0, 0.5);
 }
 
 .card img {
@@ -46,4 +48,10 @@
 
 .card-img-wrapper>.fa {
   font-size: 140px;
+}
+.card-footer {
+    background-color: transparent;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 10px;
 }

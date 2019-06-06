@@ -35,6 +35,16 @@ export class AuthService {
         return null;
     }
 
+    get permissions(): string[] {
+        if (this.loggedIn()) {
+            const token: string = localStorage.getItem('token');
+            const decodedToken = this.jwtHelper.decodeToken(token);
+            return decodedToken.permissions;
+        }
+
+        return [];
+    }
+
     constructor(private http: HttpClient) {
         this.jwtHelper = new JwtHelperService();
     }

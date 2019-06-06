@@ -20,9 +20,11 @@ import { LoginComponent } from './_components/auth/login/login.component';
 import { RegisterComponent } from './_components/auth/register/register.component';
 import { MessageBoxComponent } from './_components/message-box/message-box.component';
 
-import { FinancialService } from './_services/financial.service';
 import { AuthGuard } from './_guards/auth.guard';
+import { PermissionGuard } from './_guards/permission.guard';
+import { FinancialService } from './_services/financial.service';
 import { AuthService } from './_services/auth.service';
+
 
 // import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // import { library, dom } from '@fortawesome/fontawesome-svg-core';
@@ -50,7 +52,7 @@ export const tokenGetter = () => localStorage.getItem('token');
             config: {
                 tokenGetter,
                 whitelistedDomains: ['localhost:5001', 'localhost:5000'],
-                blacklistedRoutes: ['localhost:5001/api/auth']
+                blacklistedRoutes: ['localhost:5001/api/auth', 'localhost:5000/api/auth']
             }
         }),
         NgxDatatableModule,
@@ -61,9 +63,10 @@ export const tokenGetter = () => localStorage.getItem('token');
         // FontAwesomeModule
     ],
     providers: [
+        AuthGuard,
+        PermissionGuard,
         AuthService,
         FinancialService,
-        AuthGuard,
         // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true, }
     ],
     bootstrap: [

@@ -1,5 +1,4 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using NpvCalculator.Data.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -67,16 +66,6 @@ namespace NpvCalculator.Security.Helpers
 
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(jwt);
-        }
-
-        public static Claim[] GenerateClaims(User user)
-        {
-            return new Claim[]
-            {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserId.ToString(), ClaimValueTypes.String),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName, ClaimValueTypes.String),
-                new Claim("test.claim", "Test Claim Value", ClaimValueTypes.String)
-            };
         }
     }
 }

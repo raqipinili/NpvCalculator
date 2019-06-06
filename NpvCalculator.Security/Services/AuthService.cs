@@ -4,6 +4,9 @@ using NpvCalculator.Data.Entities;
 using NpvCalculator.Security.Classes;
 using NpvCalculator.Security.Helpers;
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -22,16 +25,35 @@ namespace NpvCalculator.Security.Services
 
         public async Task<string> Login(Login login)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == login.UserName);
+            try
+            {
+                var user = await _context.Users.Include(u => u.UserPermissions).FirstOrDefaultAsync(u => u.UserName == login.UserName);
 
-            if (user == null)
-                throw new UnauthorizedAccessException("Unauthorized Access");
+                if (user == null)
+                    throw new UnauthorizedAccessException("Unauthorized Access");
 
-            if (!AuthHelper.VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
-                throw new UnauthorizedAccessException("Unauthorized Access");
+                if (!AuthHelper.VerifyPasswordHash(login.Password, user.PasswordHash, user.PasswordSalt))
+                    throw new UnauthorizedAccessException("Unauthorized Access");
 
-            Claim[] claims = AuthHelper.GenerateClaims(user);
-            return AuthHelper.GenerateTokenV2(_jwtOptions, claims);
+                var claims = new List<Claim>();
+                claims.Add(new Claim(JwtRegisteredClaimNames.NameId, user.UserId.ToString(), ClaimValueTypes.String));
+                claims.Add(new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName, ClaimValueTypes.String));
+
+                var userPermissions = await _context.UserPermissions
+                    .Where(up => up.UserId == user.UserId)
+                    .Include(up => up.Permission)
+                    .Select(up => new Claim("permissions", up.Permission.PermissionId.ToString(), ClaimValueTypes.Integer))
+                    .ToListAsync();
+
+                claims.AddRange(userPermissions);
+
+                return AuthHelper.GenerateTokenV2(_jwtOptions, claims.ToArray());
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                throw;
+            }
         }
 
         public async Task<Guid> Register(Register register)
@@ -53,8 +75,32 @@ namespace NpvCalculator.Security.Services
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            /* https://devblogs.microsoft.com/cesardelatorre/using-resilient-entity-framework-core-sql-connections-and-transactions-retries-with-exponential-backoff/ */
+            var strategy = _context.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(async () =>
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    int saveCount = 0;
+
+                    await _context.Users.AddAsync(user);
+                    saveCount = await _context.SaveChangesAsync();
+
+                    if (register.Permissions != null && register.Permissions.Count() > 0)
+                    {
+                        var userPermissions = register.Permissions.Select(permissionId => new UserPermission()
+                        {
+                            UserId = user.UserId,
+                            PermissionId = permissionId
+                        });
+
+                        await _context.UserPermissions.AddRangeAsync(userPermissions);
+                        saveCount = await _context.SaveChangesAsync();
+                    }
+
+                    transaction.Commit();
+                }
+            });
 
             return user.UserId;
         }

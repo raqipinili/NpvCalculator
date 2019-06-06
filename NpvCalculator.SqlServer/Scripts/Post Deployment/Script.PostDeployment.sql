@@ -11,3 +11,4 @@ Post-Deployment Script Template
 */
 
 :r ".\..\..\Lookup\Insert\CalculatorTypes.sql"
+:r ".\..\..\Security\Insert\Permissions.sql"

@@ -48,8 +48,8 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
             initialInvestment: [null, Validators.required],
             lowerBoundDiscountRate: [null, Validators.required],
             upperBoundDiscountRate: [null, Validators.required],
-            discountRateIncrement: [null, { validators: [Validators.required], updateOn: 'change' }],
-            cashFlows: this.formBuilder.array([null], { updateOn: 'change' })
+            discountRateIncrement: [null, Validators.required],
+            cashFlows: this.formBuilder.array([null])
         });
     }
 
@@ -200,7 +200,6 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.isLoading = true;
         const formValue = this.getFormValue();
 
         if (this.compareFormValue(this.lastFormValue, formValue)) {
@@ -208,6 +207,7 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
             return;
         }
 
+        this.isLoading = true;
         this.subscription = this.financialService.getNetPresentValueDynamicRate(formValue).subscribe(
             (response: NetPresentValuePerRate[]) => {
                 this.rows = this.getTableData(response);

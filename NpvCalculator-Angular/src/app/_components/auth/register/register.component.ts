@@ -5,6 +5,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { showMessageBox } from 'src/app/_helpers/helper-functions';
 import { AuthService } from 'src/app/_services/auth.service';
 import { RegisterRequest } from 'src/app/_models/register-request';
+import { Permissions } from 'src/app/_shared/permissions.enum';
 
 
 
@@ -32,7 +33,10 @@ export class RegisterComponent implements OnInit {
             lastname: ['', Validators.required],
             username: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(4)]],
-            confirmPassword: ['', [Validators.required, Validators.minLength(4)]]
+            confirmPassword: ['', [Validators.required, Validators.minLength(4)]],
+            npvPermission: [false],
+            pvPermission: [false],
+            fvPermission: [false]
         }, { validator: this.passwordValidator('password', 'confirmPassword') });
     }
 
@@ -62,7 +66,24 @@ export class RegisterComponent implements OnInit {
             return;
         }
 
-        const register: RegisterRequest = this.registerForm.getRawValue() as RegisterRequest;
+        const formValue = this.registerForm.getRawValue();
+        const permissions = [];
+
+        // tslint:disable-next-line: curly
+        if (formValue.npvPermission) permissions.push(Permissions.NetFutureValue);
+        // tslint:disable-next-line: curly
+        if (formValue.pvPermission) permissions.push(Permissions.PresentValue);
+        // tslint:disable-next-line: curly
+        if (formValue.fvPermission) permissions.push(Permissions.FutureValue);
+
+        const register: RegisterRequest = {
+            firstname: formValue.firstname,
+            lastname: formValue.lastname,
+            username: formValue.username,
+            password: formValue.password,
+            permissions
+        };
+
         this.authService.register(register).subscribe((result: number) => {
             console.log(result, 'Success: Register');
             showMessageBox(this.modalService, 'Success', ['Registration successful']);

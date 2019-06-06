@@ -50,6 +50,25 @@
                 <div *ngIf="submitted && registerForm.get('confirmPassword').hasError('minlength')" class="invalid-feedback"> Confirm password must be at least 4 characters</div>
                 <div *ngIf="submitted && registerForm.get('confirmPassword').hasError('mustMatch')" class="invalid-feedback"> Password does not match!</div>
             </div>
+            <div class="form-group permissions-box">
+                <div class="row">
+                    <div class="col-md-4">Permissions:</div>
+                    <div class="col-md-8">
+                        <div class="form-check form-check-inline">
+                            <label for="npvCheck" class="form-check-label">
+                                <input type="checkbox" formControlName="npvPermission" class="form-check-input" id="npvCheck" /> NPV </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label for="pvCheck" class="form-check-label">
+                                <input type="checkbox" formControlName="pvPermission" class="form-check-input" id="pvCheck" /> PV </label>
+                        </div>
+                        <div class="form-check form-check-inline disabled">
+                            <label for="fvCheck" class="form-check-label">
+                                <input type="checkbox" formControlName="fvPermission" class="form-check-input" id="fvCheck" /> FV </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group text-center">
                 <button class="btn btn-success mr-3" type="submit">Register</button>
                 <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>

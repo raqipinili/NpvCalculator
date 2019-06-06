@@ -8,7 +8,9 @@ import { FutureValueComponent } from './_components/future-value/future-value.co
 import { LoginComponent } from './_components/auth/login/login.component';
 import { RegisterComponent } from './_components/auth/register/register.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { PermissionGuard } from './_guards/permission.guard';
 import { NetPresentValueResolver } from './_resolvers/net-present-value.resolver';
+import { Permissions } from './_shared/permissions.enum';
 
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -19,15 +21,21 @@ const routes: Routes = [
         children: [{
             path: 'net-present-value',
             component: NetPresentValueComponent,
-            resolve: { netPresentValue: NetPresentValueResolver }
+            resolve: { netPresentValue: NetPresentValueResolver },
+            data: { permissions: [Permissions.NetFutureValue] },
+            canActivate: [PermissionGuard]
         },
         {
             path: 'present-value',
-            component: PresentValueComponent
+            component: PresentValueComponent,
+            data: { permissions: [Permissions.PresentValue] },
+            canActivate: [PermissionGuard]
         },
         {
             path: 'future-value',
-            component: FutureValueComponent
+            component: FutureValueComponent,
+            data: { permissions: [Permissions.FutureValue] },
+            canActivate: [PermissionGuard]
         }]
     },
     { path: 'home', component: HomeComponent, runGuardsAndResolvers: 'always', canActivate: [AuthGuard] },
