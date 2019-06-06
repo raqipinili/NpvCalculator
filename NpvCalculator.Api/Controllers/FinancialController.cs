@@ -74,7 +74,11 @@ namespace NpvCalculator.Api.Controllers
         public async Task<IActionResult> CalculateNetPresentValueDynamicRate(NetPresentValueRequest request)
         {
             Guid userId = User.GetUserId();
-            var save = await _service.AddNetPresentValue(userId, request);
+
+            if (request.SaveToDatabase)
+            {
+                await _service.AddNetPresentValue(userId, request);
+            }
 
             var result = _calcalculator.CalculateNetPresentValueDynamicRate(
                request.InitialInvestment,

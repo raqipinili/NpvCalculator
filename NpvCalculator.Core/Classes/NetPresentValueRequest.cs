@@ -11,5 +11,6 @@ namespace NpvCalculator.Core.Classes
         public double UpperBoundDiscountRate { get; set; }
         public double DiscountRateIncrement { get; set; }
         public IEnumerable<PeriodAmount> CashFlows { get; set; }
+        public bool SaveToDatabase { get; set; }
     }
 }

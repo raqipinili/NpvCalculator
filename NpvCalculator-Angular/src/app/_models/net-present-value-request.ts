@@ -8,4 +8,5 @@ export interface NetPresentValueRequest {
     upperBoundDiscountRate: number;
     discountRateIncrement: number;
     cashFlows: PeriodAmount[];
+    saveToDatabase: boolean;
 }

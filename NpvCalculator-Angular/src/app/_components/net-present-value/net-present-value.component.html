@@ -61,7 +61,10 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
+                        <button type="button" [ngClass]="saveToDatabase ? 'btn btn-danger' : 'btn btn-secondary'" [tabindex]="-1" (click)="saveToDatabase = !saveToDatabase"> Save to DB: {{ saveToDatabase }} &nbsp;<i [ngClass]="saveToDatabase ? 'fa fa-check-circle' : 'fa fa-times-circle'"></i> </button>
+                    </div>
+                    <div class="form-group col-md-6">
                         <button type="button" class="btn btn-primary float-right" [tabindex]="-1" (click)="addCashFlowControl()">
                             <i class="fa fa-plus-circle"></i> Add Cash Flow </button>
                     </div>

@@ -25,6 +25,7 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
     isLoading = false;
     chartLabels = null;
     chartData = null;
+    saveToDatabase = true;
 
     get cashFlowFormArray(): FormArray {
         return this.formGroup.get('cashFlows') as FormArray;
@@ -208,6 +209,7 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
         }
 
         this.isLoading = true;
+        formValue.saveToDatabase = this.saveToDatabase;
         this.subscription = this.financialService.getNetPresentValueDynamicRate(formValue).subscribe(
             (response: NetPresentValuePerRate[]) => {
                 this.rows = this.getTableData(response);
