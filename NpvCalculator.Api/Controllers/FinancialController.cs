@@ -125,6 +125,7 @@ namespace NpvCalculator.Api.Controllers
             }
             else
             {
+                // default value if user has no saved NPV 
                 var cashFlows = new List<PeriodAmount>()
                 {
                     new PeriodAmount() { Amount = 100D, Period = 1 },

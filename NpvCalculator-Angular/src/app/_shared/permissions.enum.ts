@@ -1,5 +1,5 @@
 export enum Permissions {
-    NetFutureValue = 1,
+    NetPresentValue = 1,
     PresentValue,
     FutureValue
 }

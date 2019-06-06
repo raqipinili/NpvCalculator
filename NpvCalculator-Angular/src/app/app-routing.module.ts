@@ -22,7 +22,7 @@ const routes: Routes = [
             path: 'net-present-value',
             component: NetPresentValueComponent,
             resolve: { netPresentValue: NetPresentValueResolver },
-            data: { permissions: [Permissions.NetFutureValue] },
+            data: { permissions: [Permissions.NetPresentValue] },
             canActivate: [PermissionGuard]
         },
         {

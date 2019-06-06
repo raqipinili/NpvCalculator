@@ -70,7 +70,7 @@ export class RegisterComponent implements OnInit {
         const permissions = [];
 
         // tslint:disable-next-line: curly
-        if (formValue.npvPermission) permissions.push(Permissions.NetFutureValue);
+        if (formValue.npvPermission) permissions.push(Permissions.NetPresentValue);
         // tslint:disable-next-line: curly
         if (formValue.pvPermission) permissions.push(Permissions.PresentValue);
         // tslint:disable-next-line: curly

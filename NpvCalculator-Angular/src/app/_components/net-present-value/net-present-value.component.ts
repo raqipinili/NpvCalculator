@@ -26,6 +26,7 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
     chartLabels = null;
     chartData = null;
     saveToDatabase = true;
+    firstLoad = true;
 
     get cashFlowFormArray(): FormArray {
         return this.formGroup.get('cashFlows') as FormArray;
@@ -65,13 +66,14 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
 
             // save to lastFormValue
             this.lastFormValue = deepCopy(netPresentValueData);
+            this.firstLoad = true;
         });
 
-        this.formGroup.valueChanges.subscribe(currentValue => {
-            currentValue.cashFlows = this.toPeriodAmount(currentValue.cashFlows);
-            const hasChanges = this.compareFormValue(this.lastFormValue, currentValue);
-            console.log([this.lastFormValue, currentValue], hasChanges);
-        });
+        // this.formGroup.valueChanges.subscribe(currentValue => {
+        //     currentValue.cashFlows = this.toPeriodAmount(currentValue.cashFlows);
+        //     const hasChanges = this.compareFormValue(this.lastFormValue, currentValue);
+        //     console.log([this.lastFormValue, currentValue], hasChanges);
+        // });
     }
 
     ngOnDestroy() {
@@ -203,7 +205,7 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
 
         const formValue = this.getFormValue();
 
-        if (this.compareFormValue(this.lastFormValue, formValue)) {
+        if (!this.firstLoad && this.compareFormValue(this.lastFormValue, formValue)) {
             showMessageBox(this.modalService, 'Warning', ['Form has no changes']);
             return;
         }
@@ -222,6 +224,7 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
                 this.isLoading = false;
             }, () => {
                 this.lastFormValue = deepCopy(formValue);
+                this.firstLoad = false;
                 this.isLoading = false;
             });
     }

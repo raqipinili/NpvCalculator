@@ -39,6 +39,10 @@ namespace NpvCalculator.Security.Services
                 claims.Add(new Claim(JwtRegisteredClaimNames.NameId, user.UserId.ToString(), ClaimValueTypes.String));
                 claims.Add(new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName, ClaimValueTypes.String));
 
+                // when a user has only one permission, 'permissions claim' will not be an array,
+                // add a dummy value to make the 'permissions claim' an array if user has only one permission
+                claims.Add(new Claim("permissions", "0", ClaimValueTypes.Integer));
+
                 var userPermissions = await _context.UserPermissions
                     .Where(up => up.UserId == user.UserId)
                     .Include(up => up.Permission)
