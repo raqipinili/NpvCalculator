@@ -23,11 +23,15 @@ export function getAllControlErrors(control: AbstractControl, controlNames: stri
     return result;
 }
 
-export function showMessageBox(modalService: BsModalService, modalRef: BsModalRef, title: string, message: string[]): BsModalRef {
+export function showMessageBox(modalService: BsModalService, title: string, message: string[]): BsModalRef {
     return modalService.show(MessageBoxComponent, {
         initialState: {
             list: message,
             title
         }
     });
+}
+
+export function deepCopy(object: any): any {
+    return JSON.parse(JSON.stringify(object));
 }

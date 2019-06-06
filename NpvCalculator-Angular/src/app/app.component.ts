@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from './_services/auth.service';
 import { showMessageBox } from 'src/app/_helpers/helper-functions';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-
 
 @Component({
     selector: 'app-root',
@@ -11,8 +10,6 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    bsModalRef: BsModalRef;
-
     get username() {
         return this.authService.username;
     }
@@ -21,7 +18,6 @@ export class AppComponent {
         private router: Router,
         private authService: AuthService,
         private modalService: BsModalService) {
-
     }
 
     loggedIn() {
@@ -30,7 +26,7 @@ export class AppComponent {
 
     logout() {
         this.authService.logout(() => {
-            this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Logout', ['Logged out']);
+            showMessageBox(this.modalService, 'Logout', ['Logged out']);
             this.router.navigate(['/login']);
         });
     }

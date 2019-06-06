@@ -1,10 +1,12 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { AuthService } from 'src/app/_services/auth.service';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterRequest } from 'src/app/_models/register-request';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { showMessageBox } from 'src/app/_helpers/helper-functions';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { AuthService } from 'src/app/_services/auth.service';
+import { RegisterRequest } from 'src/app/_models/register-request';
+
+
 
 @Component({
     selector: 'app-register',
@@ -16,7 +18,6 @@ export class RegisterComponent implements OnInit {
     cancelRegister = new EventEmitter<boolean>();
     registerForm: FormGroup;
     submitted = false;
-    bsModalRef: BsModalRef;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -64,11 +65,11 @@ export class RegisterComponent implements OnInit {
         const register: RegisterRequest = this.registerForm.getRawValue() as RegisterRequest;
         this.authService.register(register).subscribe((result: number) => {
             console.log(result, 'Success: Register');
-            this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Success', ['Registration successful']);
+            showMessageBox(this.modalService, 'Success', ['Registration successful']);
             this.route.navigate(['/login']);
         }, error => {
             console.log(error);
-            this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', [`${error.status} - ${error.statusText}`]);
+            showMessageBox(this.modalService, 'Error', [`${error.status} - ${error.statusText}`]);
         });
     }
 

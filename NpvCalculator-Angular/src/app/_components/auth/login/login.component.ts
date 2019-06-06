@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { showMessageBox } from 'src/app/_helpers/helper-functions';
 import { AuthService } from 'src/app/_services/auth.service';
 import { LoginRequest } from 'src/app/_models/login-request';
-import { showMessageBox } from 'src/app/_helpers/helper-functions';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
     selector: 'app-login',
@@ -14,7 +14,6 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     submitted: boolean;
-    bsModalRef: BsModalRef;
 
     get form() {
         return this.loginForm.controls;
@@ -38,7 +37,7 @@ export class LoginComponent implements OnInit {
     login() {
         this.submitted = true;
 
-        if (!this.loginForm.valid) {
+        if (this.loginForm.invalid) {
             return;
         }
 
@@ -50,7 +49,7 @@ export class LoginComponent implements OnInit {
         this.authService.login(login).subscribe(() => {
             console.log('Login successful');
         }, error => {
-            this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', [`${error.status} - ${error.statusText}`]);
+            showMessageBox(this.modalService, 'Error', [`${error.status} - ${error.statusText}`]);
         }, () => {
             this.router.navigate(['/home']);
         });

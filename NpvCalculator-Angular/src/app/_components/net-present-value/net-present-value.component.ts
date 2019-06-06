@@ -1,15 +1,14 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of, Subscription } from 'rxjs';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { getAllControlErrors, showMessageBox } from 'src/app/_helpers/helper-functions';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { getAllControlErrors, showMessageBox, deepCopy } from 'src/app/_helpers/helper-functions';
 
 import { FinancialService } from 'src/app/_services/financial.service';
 import { NetPresentValueRequest } from 'src/app/_models/net-present-value-request';
 import { NetPresentValueResponse } from 'src/app/_models/net-present-value-response';
 import { NetPresentValuePerRate } from 'src/app/_models/net-present-value-per-rate';
-import { CashFlow } from 'src/app/_models/cash-flow';
 import { PeriodAmount } from 'src/app/_models/period-amount';
 
 @Component({
@@ -20,7 +19,7 @@ import { PeriodAmount } from 'src/app/_models/period-amount';
 export class NetPresentValueComponent implements OnInit, OnDestroy {
     subscription: Subscription;
     formGroup: FormGroup;
-    bsModalRef: BsModalRef;
+    lastFormValue: NetPresentValueRequest;
     rows: Observable<any[]>;
 
     isLoading = false;
@@ -49,8 +48,8 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
             initialInvestment: [null, Validators.required],
             lowerBoundDiscountRate: [null, Validators.required],
             upperBoundDiscountRate: [null, Validators.required],
-            discountRateIncrement: [null, Validators.required],
-            cashFlows: this.formBuilder.array([null])
+            discountRateIncrement: [null, { validators: [Validators.required], updateOn: 'change' }],
+            cashFlows: this.formBuilder.array([null], { updateOn: 'change' })
         });
     }
 
@@ -59,6 +58,18 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
             // tslint:disable-next-line: no-string-literal
             const netPresentValueData = data['netPresentValue'];
             this.setFormData(netPresentValueData);
+
+            // delete results property
+            delete netPresentValueData.results;
+
+            // save to lastFormValue
+            this.lastFormValue = deepCopy(netPresentValueData);
+        });
+
+        this.formGroup.valueChanges.subscribe(currentValue => {
+            currentValue.cashFlows = this.toPeriodAmount(currentValue.cashFlows);
+            const hasChanges = this.compareFormValue(this.lastFormValue, currentValue);
+            console.log([this.lastFormValue, currentValue], hasChanges);
         });
     }
 
@@ -86,7 +97,7 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
                     this.cashFlowFormArray.push(new FormControl(null));
                 }
 
-                data.cashFlows.forEach((cf: CashFlow) => {
+                data.cashFlows.forEach((cf: PeriodAmount) => {
                     this.cashFlowFormArray.at(cf.period - 1).setValue(cf.amount);
                 });
             }
@@ -127,14 +138,54 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
 
     getFormValue(): NetPresentValueRequest {
         const formValue = this.formGroup.getRawValue();
-        const newValue = Object.assign({}, formValue);
+        formValue.cashFlows = this.toPeriodAmount(formValue.cashFlows);
+        return formValue as NetPresentValueRequest;
+    }
 
-        newValue.cashFlows = formValue.cashFlows
+    toPeriodAmount(cashFlows: number[]): PeriodAmount[] {
+        return cashFlows
             .map((value: number, index: number) =>
-                ({ period: index + 1, amount: value || 0 } as CashFlow))
+                ({ period: index + 1, amount: value || 0 } as PeriodAmount))
             .filter((cf: PeriodAmount) => cf.amount !== 0);
+    }
 
-        return newValue as NetPresentValueRequest;
+    compareFormValue(
+        a: NetPresentValueRequest,
+        b: NetPresentValueRequest): boolean {
+        const hasValue1 = (a !== undefined && a !== null);
+        const hasValue2 = (b !== undefined && b !== null);
+
+        // tslint:disable-next-line: curly
+        if (hasValue1 !== hasValue2) return false;
+
+        let isNotEqual = (a.initialInvestment !== b.initialInvestment);
+        // tslint:disable-next-line: curly
+        if (isNotEqual) return false;
+
+        isNotEqual = (a.lowerBoundDiscountRate !== b.lowerBoundDiscountRate);
+        // tslint:disable-next-line: curly
+        if (isNotEqual) return false;
+
+        isNotEqual = (a.upperBoundDiscountRate !== b.upperBoundDiscountRate);
+        // tslint:disable-next-line: curly
+        if (isNotEqual) return false;
+
+        isNotEqual = (a.discountRateIncrement !== b.discountRateIncrement);
+        // tslint:disable-next-line: curly
+        if (isNotEqual) return false;
+
+        isNotEqual = (a.cashFlows.length !== b.cashFlows.length);
+        // tslint:disable-next-line: curly
+        if (isNotEqual) return false;
+
+        for (let i = 0; i < a.cashFlows.length; i++) {
+            if (a.cashFlows[i].amount !== b.cashFlows[i].amount ||
+                a.cashFlows[i].period !== b.cashFlows[i].period) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     calculate() {
@@ -145,12 +196,17 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
                     ['initialInvestment', 'lowerBoundDiscountRate', 'upperBoundDiscountRate', 'discountRateIncrement'],
                     ['Initial Investment', 'Lower Bound Discount Rate', 'Upper Bound Discount Rate', 'Discount Rate Increment']);
 
-            this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', controlErrors);
+            showMessageBox(this.modalService, 'Error', controlErrors);
             return;
         }
 
         this.isLoading = true;
         const formValue = this.getFormValue();
+
+        if (this.compareFormValue(this.lastFormValue, formValue)) {
+            showMessageBox(this.modalService, 'Warning', ['Form has no changes']);
+            return;
+        }
 
         this.subscription = this.financialService.getNetPresentValueDynamicRate(formValue).subscribe(
             (response: NetPresentValuePerRate[]) => {
@@ -160,9 +216,10 @@ export class NetPresentValueComponent implements OnInit, OnDestroy {
                 this.chartData = chartDataAndLabels[1];
             }, error => {
                 console.log(error, 'Error in getNetPresentValueDynamicRate method');
-                this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', [`${error.status} - ${error.statusText}`]);
+                showMessageBox(this.modalService, 'Error', [`${error.status} - ${error.statusText}`]);
                 this.isLoading = false;
             }, () => {
+                this.lastFormValue = deepCopy(formValue);
                 this.isLoading = false;
             });
     }

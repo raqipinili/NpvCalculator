@@ -1,5 +1,5 @@
 import { NetPresentValuePerRate } from './net-present-value-per-rate';
-import { CashFlow } from './cash-flow';
+import { PeriodAmount } from './period-amount';
 
 export interface NetPresentValueResponse {
     netPresentValueId: number;
@@ -8,6 +8,6 @@ export interface NetPresentValueResponse {
     lowerBoundDiscountRate: number;
     upperBoundDiscountRate: number;
     discountRateIncrement: number;
-    cashFlows: CashFlow[];
+    cashFlows: PeriodAmount[];
     results: NetPresentValuePerRate[];
 }

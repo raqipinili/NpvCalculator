@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { Observable, Subscription, of } from 'rxjs';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { getAllControlErrors, showMessageBox } from 'src/app/_helpers/helper-functions';
 
 import { FinancialService } from 'src/app/_services/financial.service';
@@ -16,7 +16,6 @@ import { PeriodAmount } from 'src/app/_models/period-amount';
 export class PresentValueComponent implements OnInit, OnDestroy {
     subscription: Subscription;
     formGroup: FormGroup;
-    bsModalRef: BsModalRef;
     rows: Observable<any[]>;
 
     isLoading = false;
@@ -58,7 +57,7 @@ export class PresentValueComponent implements OnInit, OnDestroy {
                     ['futureValue', 'discountRate', 'periods'],
                     ['Future Value', 'Discount Rate', 'Periods']);
 
-            this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', controlErrors);
+            showMessageBox(this.modalService, 'Error', controlErrors);
             return;
         }
 
@@ -79,7 +78,7 @@ export class PresentValueComponent implements OnInit, OnDestroy {
                 }];
             }, error => {
                 console.log(error, 'Error in getPresentValueMulti method');
-                this.bsModalRef = showMessageBox(this.modalService, this.bsModalRef, 'Error', [`${error.status} - ${error.statusText}`]);
+                showMessageBox(this.modalService, 'Error', [`${error.status} - ${error.statusText}`]);
                 this.isLoading = false;
             }, () => {
                 this.isLoading = false;
