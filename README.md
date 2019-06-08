@@ -2,7 +2,7 @@
 Net Present Value Calculator
 
 
-[![Build Status](https://dev.azure.com/raqipinili/NpvCalculator/_apis/build/status/raqipinili.NpvCalculator?branchName=master)](https://dev.azure.com/raqipinili/NpvCalculator/_build/latest?definitionId=4&branchName=master)
+[![Build Status](https://dev.azure.com/raqipinili/NpvCalculator/_apis/build/status/raqipinili.NpvCalculator?branchName=master)](https://dev.azure.com/raqipinili/NpvCalculator/_build/latest?definitionId=4&branchName=master) [![Build status](https://ci.appveyor.com/api/projects/status/20nni4b4546kj3wc/branch/master?svg=true)](https://ci.appveyor.com/project/raqipinili/npvcalculator/branch/master) [![CircleCI](https://circleci.com/gh/raqipinili/NpvCalculator.svg?style=svg)](https://circleci.com/gh/raqipinili/NpvCalculator) [![Build Status](https://travis-ci.org/raqipinili/NpvCalculator.svg?branch=master)](https://travis-ci.org/raqipinili/NpvCalculator) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/89befb46fbe94735ac48c1f861cb3a67)](https://www.codacy.com/app/raqipinili/NpvCalculator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=raqipinili/NpvCalculator&amp;utm_campaign=Badge_Grade)
 
 
 ## How to run

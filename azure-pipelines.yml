@@ -7,19 +7,46 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-2019'
 
 variables:
+  solutionName: 'NpvCalculator.sln'
   buildConfiguration: 'Release'
+  platform: 'x64'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
-- task: VSTest@2
+- task: DotNetCoreCLI@2
   inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\*test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**'
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    vsTestVersion: '16.0'
+      command: 'custom'
+      custom: 'restore'
+      arguments: --no-cache --force --force-evaluate --verbosity minimal /property:Configuration=$(buildConfiguration) $(solutionName)
+      versioningScheme: 'off'
+      feedsToUse: 'select'
+
+- task: MSBuild@1
+  inputs:
+    msbuildLocationMethod: 'version'
+    msbuildVersion: 'latest'
+    msbuildArchitecture: 'x64'
+    solution: $(solutionName) # '**/*.sln'
+    configuration: $(buildConfiguration)
+    platform: $(platform)
+    clean: true
+    restoreNugetPackages: false
+    createLogFile: false
+    logFileVerbosity: 'minimal'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: 'NpvCalculator.Tests'
+    arguments: '--logger trx --configuration $(buildConfiguration) --verbosity Minimal'
+    testRunTitle: 'NpvCalculator Tests'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'XUnit'
+    testResultsFiles: '**/TEST-*.trx'
+    testRunTitle: 'NpvCalculator Tests'
+    buildPlatform: '$(platform)'
+    buildConfiguration: '$(buildConfiguration)'

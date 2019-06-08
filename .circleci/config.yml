@@ -1,0 +1,27 @@
+version: 2.0
+jobs:
+  build:
+    docker:
+        - image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    steps:
+        - checkout
+        - run:
+            name: Clean
+            command:
+              dotnet clean --configuration Release --verbosity minimal NpvCalculator.sln
+
+        - run:
+            name: Restore
+            command:
+              dotnet restore --no-cache --force --force-evaluate --verbosity minimal /property:Configuration=Release NpvCalculator.sln
+
+        - run:
+            name: Build
+            command:
+              dotnet build --force --no-restore --no-incremental --configuration Release --verbosity minimal NpvCalculator.sln
+
+        - run:
+            name: Test
+            command:
+              dotnet test --logger "trx;LogFileName=TestResults.trx" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutput=CodeCoverage\ /p:CoverletOutputFormat=cobertura /p:Exclude="[xunit.*]*" NpvCalculator.Tests
+
