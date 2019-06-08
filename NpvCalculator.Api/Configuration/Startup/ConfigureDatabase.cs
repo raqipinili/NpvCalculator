@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NpvCalculator.Data;
+using Security.Data;
 using System;
 
 namespace NpvCalculator.Api.Configuration.Startup
@@ -12,13 +13,23 @@ namespace NpvCalculator.Api.Configuration.Startup
         {
             // SQL Server
             string sqlServerConnection = config.GetConnectionString("SqlServerConnection");
-            services.AddDbContext<CalculatorDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(sqlServerConnection, sqlServerOptionsAction: opt =>
-                    opt.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null)));
+                    opt.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null)
+                       .MigrationsAssembly("NpvCalculator.Data")
+                       .MigrationsHistoryTable("NpvCalculator", "__MigrationsHistory")
+                ));
+
+            services.AddDbContext<SecurityDbContext>(options =>
+                options.UseSqlServer(sqlServerConnection, sqlServerOptionsAction: opt =>
+                    opt.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null)
+                       .MigrationsAssembly("Security.Data")
+                       .MigrationsHistoryTable("Security", "__MigrationsHistory")
+                ));
 
             // Sqlite
-            //string sqliteConnection = config.GetConnectionString("SqliteConnection");
-            //services.AddDbContext<CalculatorDbContext>(options => options.UseSqlite(sqliteConnection));
+            // string sqliteConnection = config.GetConnectionString("SqliteConnection");
+            // services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(sqliteConnection));
 
             return services;
         }

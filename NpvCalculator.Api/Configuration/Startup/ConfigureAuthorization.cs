@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NpvCalculator.Security.Enums;
+using Security.Core.Enums;
 
 namespace NpvCalculator.Api.Configuration.Startup
 {

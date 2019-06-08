@@ -9,8 +9,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Security.Data\Security.Data.csproj" />
-  </ItemGroup>
-
 </Project>

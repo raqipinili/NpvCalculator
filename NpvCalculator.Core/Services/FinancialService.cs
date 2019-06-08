@@ -10,9 +10,9 @@ namespace NpvCalculator.Core.Services
 {
     public class FinancialService : IFinancialService
     {
-        private readonly CalculatorDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public FinancialService(CalculatorDbContext context)
+        public FinancialService(ApplicationDbContext context)
         {
             _context = context;
         }

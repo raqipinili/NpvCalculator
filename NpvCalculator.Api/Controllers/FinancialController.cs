@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NpvCalculator.Core.Classes;
 using NpvCalculator.Core.Services;
-using NpvCalculator.Security.Helpers.Extensions;
+using Security.Core.Helpers.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

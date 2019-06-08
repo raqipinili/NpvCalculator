@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NpvCalculator.Security.Helpers;
+using Security.Core.Helpers;
 
 namespace NpvCalculator.Api.Configuration.Startup
 {

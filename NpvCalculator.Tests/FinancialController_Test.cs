@@ -16,7 +16,7 @@ namespace NpvCalculator.Tests
         }
 
         [Fact(DisplayName = "/pv/multi", Skip = "Not yet done")]
-        public void ValidateRate_Throws_ArgumentException()
+        public void Method_Returns_StatusCode_200()
         {
             // Arrange
             var request = new PresentValueRequest()

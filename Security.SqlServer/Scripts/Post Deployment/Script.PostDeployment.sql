@@ -10,5 +10,4 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-:r ".\..\..\Lookup\Insert\CalculatorTypes.sql"
-:r ".\..\..\..\Security.SqlServer\Security\Insert\Permissions.sql"
+:r ".\..\..\Security\Insert\Permissions.sql"

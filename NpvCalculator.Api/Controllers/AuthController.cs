@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NpvCalculator.Security.Classes;
-using NpvCalculator.Security.Services;
+using Security.Core.Classes;
+using Security.Core.Services;
 using System.Threading.Tasks;
 
 namespace NpvCalculator.Api.Controllers
@@ -10,15 +10,17 @@ namespace NpvCalculator.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IUserService _userService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IUserService userService)
         {
             _authService = authService;
+            _userService = userService;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         [HttpPost("login")]
-        public async Task<IActionResult> CalculatePresentValue(Login login)
+        public async Task<IActionResult> Login(Login login)
         {
             var result = await _authService.Login(login);
             return Ok(new { Token = result });
@@ -27,7 +29,7 @@ namespace NpvCalculator.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(Register register)
         {
-            var result = await _authService.Register(register);
+            var result = await _userService.Register(register);
             return Ok(result);
         }
     }
