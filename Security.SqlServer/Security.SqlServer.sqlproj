@@ -3,16 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>NpvCalculator.SqlServer</Name>
+    <Name>Security.SqlServer</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{9d82224b-8140-488d-a870-373cda42a75f}</ProjectGuid>
+    <ProjectGuid>{4dec614b-9b12-4a28-9a76-308a08678dcf}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>NpvCalculator.SqlServer</RootNamespace>
-    <AssemblyName>NpvCalculator.SqlServer</AssemblyName>
+    <RootNamespace>Security.SqlServer</RootNamespace>
+    <AssemblyName>Security.SqlServer</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -56,37 +56,24 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Calculator" />
-    <Folder Include="Lookup" />
+    <Folder Include="Security" />
     <Folder Include="Scripts" />
-    <Folder Include="Calculator\Tables" />
-    <Folder Include="Calculator\Schema" />
-    <Folder Include="Lookup\Schema" />
-    <Folder Include="Lookup\Tables" />
-    <Folder Include="Lookup\Insert" />
     <Folder Include="Scripts\Post Deployment" />
+    <Folder Include="Security\Tables" />
+    <Folder Include="Security\Schema" />
+    <Folder Include="Security\Insert" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Calculator\Tables\NetPresentValues.sql" />
-    <Build Include="Calculator\Schema\Calculator.sql" />
-    <Build Include="Lookup\Schema\Lookup.sql" />
-    <Build Include="Lookup\Tables\CalculatorTypes.sql" />
-    <Build Include="Calculator\Tables\PeriodAmounts.sql" />
-    <Build Include="Calculator\Tables\UserNetPresentValues.sql" />
+    <Build Include="Security\Schema\Security.sql" />
+    <Build Include="Security\Tables\Permissions.sql" />
+    <Build Include="Security\Tables\UserPermissions.sql" />
+    <Build Include="Security\Tables\Users.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lookup\Insert\CalculatorTypes.sql" />
-    <None Include="NpvCalculator.SqlServer.publish.xml" />
+    <None Include="Security\Insert\Permissions.sql" />
+    <None Include="Security.SqlServer.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Post Deployment\Script.PostDeployment.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Security.SqlServer\Security.SqlServer.sqlproj">
-      <Name>Security.SqlServer</Name>
-      <Project>{4dec614b-9b12-4a28-9a76-308a08678dcf}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-    </ProjectReference>
   </ItemGroup>
 </Project>

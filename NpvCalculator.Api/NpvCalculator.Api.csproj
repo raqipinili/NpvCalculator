@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NpvCalculator.Core\NpvCalculator.Core.csproj" />
     <ProjectReference Include="..\NpvCalculator.Data\NpvCalculator.Data.csproj" />
-    <ProjectReference Include="..\NpvCalculator.Security\NpvCalculator.Security.csproj" />
+    <ProjectReference Include="..\Security.Core\Security.Core.csproj" />
   </ItemGroup>
 
 </Project>

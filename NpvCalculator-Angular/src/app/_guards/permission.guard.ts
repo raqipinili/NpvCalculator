@@ -19,8 +19,6 @@ export class PermissionGuard implements CanActivate {
         // const route = next.children[0];
         let canActivate = false;
 
-        console.log(this.authService.permissions);
-
         if (next.data && next.data.permissions) {
             const permissions = Object.assign([], this.authService.permissions);
             canActivate = next.data.permissions.every((p1: number) => permissions.some(p2 => p1 === p2));

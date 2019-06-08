@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NpvCalculator.Api.Configuration.Startup;
-using NpvCalculator.Security.Helpers;
+using Security.Core.Helpers;
 
 namespace NpvCalculator.Api
 {
@@ -23,7 +23,7 @@ namespace NpvCalculator.Api
             string secretKey = Configuration.GetSection("AppSettings:SecretKey").Value;
             var signingCredentials = AuthHelper.GetSigningCredentials(secretKey);
 
-            services.ConfigureScopedServices();
+            services.ConfigureDependencyInjection();
             services.ConfigureDatabase(Configuration);
             services.ConfigureCors();
             services.ConfigureJwtOptions(Configuration, signingCredentials);
