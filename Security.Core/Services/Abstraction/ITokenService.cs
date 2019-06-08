@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Security.Core.Helpers;
+﻿using Security.Core.Helpers;
 using System.Security.Claims;
 
 namespace Security.Core.Services

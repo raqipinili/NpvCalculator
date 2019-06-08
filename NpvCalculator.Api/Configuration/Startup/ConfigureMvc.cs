@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using NpvCalculator.Core;
 
 namespace NpvCalculator.Api.Configuration.Startup
 {

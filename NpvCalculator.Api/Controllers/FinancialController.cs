@@ -87,7 +87,7 @@ namespace NpvCalculator.Api.Controllers
                request.DiscountRateIncrement,
                request.CashFlows);
 
-           return Ok(result);
+            return Ok(result);
         }
 
         [Authorize(Policy = "NPV")]

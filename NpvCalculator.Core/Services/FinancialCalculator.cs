@@ -40,7 +40,7 @@ namespace NpvCalculator.Core.Services
                 {
                     Period = period,
                     Amount = CalculateFutureValue(presentValue, rate, period)
-            });
+                });
             }
 
             return futureValues;

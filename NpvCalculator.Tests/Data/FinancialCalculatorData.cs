@@ -1,5 +1,4 @@
 ﻿using NpvCalculator.Core.Classes;
-using System;
 using System.Collections.Generic;
 
 namespace NpvCalculator.Tests.Data

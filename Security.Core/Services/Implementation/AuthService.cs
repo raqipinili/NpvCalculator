@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Security.Data;
 using Security.Core.Classes;
 using Security.Core.Helpers;
+using Security.Data;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

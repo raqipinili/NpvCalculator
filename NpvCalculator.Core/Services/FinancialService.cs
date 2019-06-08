@@ -1,10 +1,10 @@
-﻿using NpvCalculator.Core.Classes;
+﻿using Microsoft.EntityFrameworkCore;
+using NpvCalculator.Core.Classes;
 using NpvCalculator.Data;
-using Entities = NpvCalculator.Data.Entities;
 using System;
-using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using Entities = NpvCalculator.Data.Entities;
 
 namespace NpvCalculator.Core.Services
 {
