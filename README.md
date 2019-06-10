@@ -7,55 +7,20 @@ Net Present Value Calculator
 
 ## How to run
 
-clone or download repository
-```
-https://github.com/raqipinili/NpvCalculator.git
-```
+* Clone or download the repository `https://github.com/raqipinili/NpvCalculator.git`
 
-**Backend**
+* **Backend**
+* Open `NpvCalculator.Database.sln` solution in Visual Studio 2017/2019
+* Publish `Security.SqlServer` and `NpvCalculator.SqlServer` SQL Project
+* Make sure that the database and tables are created
+* Open `NpvCalculator.sln` solution in Visual Studio 2017/2019 then run `NpvCalculator.Api` project
+* Make sure `NpvCalculator.Api` project points to `http://localhost:5000/`
 
-Open the NpvCalculator.sln solution in Visual Studio 2017/2019
-Publish the SQL project
-```
-Right click NpvCalculator.SqlServer and then Publish (setup database user and pass)
-```
-
-or double click this file then click Publish (setup database user and pass)
-
-```
-NpvCalculator.SqlServer.publish.xml
-```
-Make sure that the database and tables are created
-
-Run the webapi project project in Visual Studio
-
-or open cmd and change the directory to
-```
-NpvCalculator\
-```
-then run this command
-```
-dotnet run --project NpvCalculator.Api
-```
-
-**Frontend**
-
-in cmd change the directory to
-```
-NpvCalculator-Angular\
-```
-
-run this command
-```
-npm install
-```
-
-start the angular app
-```
-npm start
-```
-
-open http://localhost:4200/ in browser
+* **Frontend**
+* Open cmd and point the directory to `NpvCalculator-Angular\`
+* install the dependencies: `npm install`
+* start the angular app: `npm start`
+* open `http://localhost:4200/` in browser
 
 ## Installed Packages
 
